@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :answer do
     body { "MyText" }
-    question { nil }
+    question { Question.create!(title: "Title", body: 'Body') }
   end
 end
