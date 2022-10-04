@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  expose :question
-  expose :answer, -> { params[:id] ? Answer.find(params[:id]) : question.answers.build(answer_params) }
+  helper_method :question, :answer
+
+  def show; end
+
+  def new; end
 
   def create
     if answer.save
@@ -13,6 +16,14 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def answer
+    @answer ||= params[:id] ? Answer.find(params[:id]) : question.answers.build(answer_params)
+  end
+
+  def question
+    @question ||= Question.find(params[:question_id])
+  end
 
   def answer_params
     params.require(:answer).permit(:body)

@@ -24,6 +24,11 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     let!(:answer) { create(:answer) }
 
+    it 'assign question of answer to @question' do
+      post :create, params: { question_id: answer.question, answer: attributes_for(:answer) }
+      expect(assigns(:question)).to eq answer.question
+    end
+
     context 'with valid attributes' do
       it 'saves a new answer in the database' do
         expect do
@@ -33,7 +38,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to show view' do
         post :create, params: { question_id: answer.question, answer: attributes_for(:answer) }
-        expect(response).to redirect_to assigns(:exposed_answer)
+        expect(response).to redirect_to assigns(:answer)
       end
     end
 

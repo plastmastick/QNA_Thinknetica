@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :answer do
     body { "MyText" }
-    question { Question.create!(title: "Title", body: 'Body') }
+    question { create(:question) }
 
     trait :invalid do
       body { nil }
