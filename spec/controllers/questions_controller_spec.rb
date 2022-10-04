@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
@@ -7,7 +9,6 @@ RSpec.describe QuestionsController, type: :controller do
     let(:questions) { create_list(:question, 3) }
 
     before { get :index }
-
 
     it 'populates an array of all questions' do
       expect(assigns(:questions)).to match_array(questions)
@@ -20,7 +21,6 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #show' do
     before { get :show, params: { id: question } }
-
 
     it 'renders show view' do
       expect(response).to render_template :show
@@ -37,7 +37,6 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #edit' do
     before { get :edit, params: { id: question } }
-
 
     it 'renders edit view' do
       expect(response).to render_template :edit
@@ -58,9 +57,10 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save the question' do
-        expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
+        expect do
+          post :create, params: { question: attributes_for(:question, :invalid) }
+        end.not_to change(Question, :count)
       end
-
 
       it 're-renders new view' do
         post :create, params: { question: attributes_for(:question, :invalid) }
@@ -80,8 +80,7 @@ RSpec.describe QuestionsController, type: :controller do
         patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
         question.reload
 
-        expect(question.title).to eq 'new title'
-        expect(question.body).to eq 'new body'
+        expect([question.title, question.body]).to eq ['new title', 'new body']
       end
 
       it 'redirects to updated question' do
@@ -96,8 +95,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'does not change question' do
         question.reload
 
-        expect(question.title).to eq 'MyString'
-        expect(question.body).to eq 'MyText'
+        expect([question.title, question.body]).to eq %w[MyString MyText]
       end
 
       it 're-renders edit view' do
@@ -118,5 +116,4 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to redirect_to questions_path
     end
   end
-
 end
