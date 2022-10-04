@@ -1,4 +1,6 @@
-require: rubocop-rails
+require:
+  - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
   NewCops: enable
@@ -31,7 +33,6 @@ Metrics/BlockLength:
   Exclude:
     - 'config/routes.rb'
     - 'config/environments/*'
-    - 'spec/**/*'
 
 Lint/RedundantSafeNavigation:
   Enabled: false
