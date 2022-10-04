@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  expose :answer
+  expose :question
+  expose :answer, -> { params[:id] ? Answer.find(params[:id]) : question.answers.build(answer_params) }
 
   def create
-    @question = Question.find(params[:question_id])
-    @answer = @question.answers.build(answer_params)
-
-    if @answer.save
-      redirect_to @answer
+    if answer.save
+      redirect_to answer
     else
       render :new
     end
