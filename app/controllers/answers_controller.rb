@@ -1,15 +1,19 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  helper_method :question, :answer
+  before_action :set_question, only: %i[new create]
+  before_action :set_answer, only: :show
 
   def show; end
 
-  def new; end
+  def new
+    @answer = @question.answers.new
+  end
 
   def create
-    if answer.save
-      redirect_to answer
+    @answer = @question.answers.build(answer_params)
+    if @answer.save
+      redirect_to @answer
     else
       render :new
     end
@@ -17,12 +21,16 @@ class AnswersController < ApplicationController
 
   private
 
-  def answer
-    @answer ||= params[:id] ? Answer.find(params[:id]) : question.answers.build(answer_params)
+  def set_answer
+    @answer = Answer.find(params[:id])
   end
 
-  def question
-    @question ||= Question.find(params[:question_id])
+  def set_question
+    @question = if @answer.nil?
+                  Question.find(params[:question_id])
+                else
+                  @answer.question
+                end
   end
 
   def answer_params
