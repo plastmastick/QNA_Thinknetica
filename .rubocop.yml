@@ -46,3 +46,8 @@ RSpec/MultipleExpectations:
   Exclude:
     - 'spec/features/*'
     - 'spec/features/**/*'
+
+RSpec/Capybara/FeatureMethods:
+  Exclude:
+    - 'spec/features/*'
+    - 'spec/features/**/*'
