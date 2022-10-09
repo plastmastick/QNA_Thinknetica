@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer) }
+  let(:user) { create(:user) }
 
   describe 'GET #show' do
     before { get :show, params: { id: answer } }
@@ -18,7 +19,10 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { get :new, params: { question_id: answer.question, id: answer } }
+    before do
+      login(user)
+      get :new, params: { question_id: answer.question, id: answer }
+    end
 
     it 'assigns a new answer to @answer' do
       expect(assigns(:answer)).to be_a_new(Answer)
@@ -34,11 +38,18 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    before { login(user) }
+
     let!(:answer) { create(:answer) }
 
     it 'assign question of answer to @question' do
       post :create, params: { question_id: answer.question, answer: attributes_for(:answer) }
       expect(assigns(:question)).to eq answer.question
+    end
+
+    it 'answer author is current user' do
+      post :create, params: { question_id: answer.question, answer: attributes_for(:answer) }
+      expect(assigns(:answer).author).to eq user
     end
 
     context 'with valid attributes' do

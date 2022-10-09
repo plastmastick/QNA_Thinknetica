@@ -17,7 +17,7 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def create
-    @question = Question.new(question_params)
+    @question = current_user.author_questions.build(question_params)
 
     if @question.save
       redirect_to @question, notice: t('question.success_created')
