@@ -138,7 +138,7 @@ RSpec.describe QuestionsController, type: :controller do
     describe 'Author of question' do
       before { login(question.author) }
 
-      it 'deletes this question' do
+      it 'deletes his question' do
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
       end
 

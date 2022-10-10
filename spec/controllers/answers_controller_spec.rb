@@ -66,4 +66,47 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    let!(:answer) { create(:answer) }
+    let(:destroy_answer) { delete :destroy, params: { question_id: answer.question, id: answer } }
+
+    describe 'Assigns' do
+      before { destroy_answer }
+
+      it 'assigns the answer to @answer' do
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'assigns the question of deleted answer to @question' do
+        expect(assigns(:question)).to eq answer.question
+      end
+    end
+
+    describe 'Author of answer' do
+      before { login(answer.author) }
+
+      it 'deletes his answer' do
+        expect { destroy_answer }.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirects to show view of @question' do
+        destroy_answer
+        expect(response).to redirect_to question_path(assigns(:question))
+      end
+    end
+
+    describe 'Not author of answer' do
+      before { login(user) }
+
+      it "can't delete this answer" do
+        expect { destroy_answer }.not_to change(Question, :count)
+      end
+
+      it "render show show view of @question" do
+        destroy_answer
+        expect(response).to render_template 'questions/show'
+      end
+    end
+  end
 end

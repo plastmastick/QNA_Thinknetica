@@ -20,6 +20,18 @@ class AnswersController < ApplicationController
     end
   end
 
+  def destroy
+    set_answer
+    @question = @answer.question
+
+    if @answer.author == current_user
+      @answer.destroy
+      redirect_to question_path(@question), notice: t('answer.success_deleted')
+    else
+      render 'questions/show'
+    end
+  end
+
   private
 
   def set_answer
