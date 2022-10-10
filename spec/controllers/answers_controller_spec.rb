@@ -26,43 +26,44 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    let!(:answer) { create(:answer) }
+    let(:create_answer) { post :create, params: { question_id: answer.question, answer: attributes_for(:answer) } }
+
     before { login(user) }
 
-    let!(:answer) { create(:answer) }
+    describe 'check answer attributes' do
+      before { create_answer }
 
-    it 'assign question of answer to @question' do
-      post :create, params: { question_id: answer.question, answer: attributes_for(:answer) }
-      expect(assigns(:question)).to eq answer.question
-    end
+      it 'assign question of answer to @question' do
+        expect(assigns(:question)).to eq answer.question
+      end
 
-    it 'answer author is current user' do
-      post :create, params: { question_id: answer.question, answer: attributes_for(:answer) }
-      expect(assigns(:answer).author).to eq user
+      it 'answer author is current user' do
+        expect(assigns(:answer).author).to eq user
+      end
     end
 
     context 'with valid attributes' do
       it 'saves a new answer in the database' do
-        expect do
-          post :create, params: { question_id: answer.question, answer: attributes_for(:answer) }
-        end.to change(Answer, :count).by(1)
+        expect { create_answer }.to change(Answer, :count).by(1)
       end
 
       it 'redirects to show view for @question' do
-        post :create, params: { question_id: answer.question, answer: attributes_for(:answer) }
-        expect(response).to redirect_to assigns(:question)
+        expect(create_answer).to redirect_to assigns(:question)
       end
     end
 
     context 'with invalid attributes' do
+      let(:create_invalid_answer) do
+        post :create, params: { question_id: answer.question, answer: attributes_for(:answer, :invalid) }
+      end
+
       it 'does not save the answer' do
-        expect do
-          post :create, params: { question_id: answer.question, answer: attributes_for(:answer, :invalid) }
-        end.not_to change(Answer, :count)
+        expect { create_invalid_answer }.not_to change(Answer, :count)
       end
 
       it 're-renders show view for @question' do
-        post :create, params: { question_id: answer.question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to render_template "questions/show"
+        expect(create_invalid_answer).to render_template "questions/show"
       end
     end
   end
@@ -74,38 +75,36 @@ RSpec.describe AnswersController, type: :controller do
     describe 'Assigns' do
       before { destroy_answer }
 
-      it 'assigns the answer to @answer' do
+      it 'the answer to @answer' do
         expect(assigns(:answer)).to eq answer
       end
 
-      it 'assigns the question of deleted answer to @question' do
+      it 'the question of deleted answer to @question' do
         expect(assigns(:question)).to eq answer.question
       end
     end
 
-    describe 'Author of answer' do
+    context "when current user is a author of answer" do
       before { login(answer.author) }
 
-      it 'deletes his answer' do
+      it 'delete his answer from database' do
         expect { destroy_answer }.to change(Answer, :count).by(-1)
       end
 
       it 'redirects to show view of @question' do
-        destroy_answer
-        expect(response).to redirect_to question_path(assigns(:question))
+        expect(destroy_answer).to redirect_to question_path(assigns(:question))
       end
     end
 
-    describe 'Not author of answer' do
+    context "when current user isn't author of answer" do
       before { login(user) }
 
-      it "can't delete this answer" do
+      it "doesn't delete answer from database" do
         expect { destroy_answer }.not_to change(Question, :count)
       end
 
-      it "render show show view of @question" do
-        destroy_answer
-        expect(response).to render_template 'questions/show'
+      it "render show view of @question" do
+        expect(destroy_answer).to render_template 'questions/show'
       end
     end
   end

@@ -17,10 +17,10 @@ feature 'User can delete own answer', "
       within_table 'Answers' do
         click_on 'Delete'
       end
-      
+
       expect(page).to have_content 'Your answer successfully deleted.'
     end
-    
+
     scenario "can't delete someone else's answer" do
       sign_in(user)
       visit question_path(answer.question)
