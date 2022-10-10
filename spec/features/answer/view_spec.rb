@@ -7,5 +7,16 @@ feature 'User can view answers list', "
   As an authenticated or unauthenticated user
   I'd like to be able to view answers on question
 " do
-  scenario 'User view answers list'
+  given!(:answer) { create(:answer) }
+
+  background { visit question_path(answer.question) }
+
+  scenario 'User view answers list' do
+    expect(page).to have_table 'Answers'
+    within_table 'Answers' do
+      expect(page).to have_text answer.body
+      expect(page).to have_text answer.author.email
+    end
+  end
+
 end

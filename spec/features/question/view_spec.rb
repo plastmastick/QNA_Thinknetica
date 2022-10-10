@@ -7,7 +7,6 @@ feature 'User can view questions list', "
   As an authenticated or unauthenticated user
   I'd like to be able to view questions list and open them
 " do
-  given(:user) { create(:user) }
   given!(:question) { create(:question) }
 
   background { visit questions_path }
