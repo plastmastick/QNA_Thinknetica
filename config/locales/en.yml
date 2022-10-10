@@ -3,4 +3,10 @@ en:
     success_created: "Your question successfully created."
   answer:
     success_created: "Your answer successfully created."
+  shared:
+    nav:
+      logout: "Log out"
+      signup: "Sign up"
+      login: "Log in"
+      welcome: "Welcome,"
 

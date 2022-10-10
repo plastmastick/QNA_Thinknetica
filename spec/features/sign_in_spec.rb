@@ -26,4 +26,11 @@ feature 'User can sign in', "
 
     expect(page).to have_content 'Invalid Email or password.'
   end
+
+  scenario 'Authenticated user open sign in page' do
+    sign_in(user)
+    visit new_user_session_path
+
+    expect(page).to have_content 'You are already signed in.'
+  end
 end
