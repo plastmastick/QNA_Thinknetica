@@ -9,4 +9,8 @@ en:
       signup: "Sign up"
       login: "Log in"
       welcome: "Welcome,"
+  questions:
+    show:
+      delete: "Delete"
+      confirm: "Are you sure?"
 
