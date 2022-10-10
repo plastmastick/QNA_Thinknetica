@@ -1,5 +1,6 @@
 en:
-  hello: "Hello world"
   question:
     success_created: "Your question successfully created."
+  answer:
+    success_created: "Your answer successfully created."
 

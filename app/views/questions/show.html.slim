@@ -1,3 +1,23 @@
 h1= @question.title
-p= @question.body
-p= @question.author.email
+
+div
+  b Question:
+  = @question.body
+
+div
+  b Author:
+  = @question.author&.email
+
+div
+  h1 Answers
+
+div
+  = render template: "answers/new"
+
+table id='Answers'
+  thead
+    tr
+      th Answer
+      th Author
+  tbody
+    = render @question.answers

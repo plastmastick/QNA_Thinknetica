@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  before_action :set_answer, only: :show
-
-  def show; end
+  before_action :authenticate_user!, only: %i[new create]
 
   def new
     @question = Question.find(params[:question_id])
@@ -16,9 +14,9 @@ class AnswersController < ApplicationController
     @answer.author = current_user
 
     if @answer.save
-      redirect_to @answer
+      redirect_to @question, notice: t('answer.success_created')
     else
-      render :new
+      render "questions/show"
     end
   end
 
