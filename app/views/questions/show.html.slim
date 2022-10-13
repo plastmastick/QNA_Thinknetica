@@ -1,10 +1,10 @@
 h1= @question.title
 
-div
+.question-body
   b Question:
   = @question.body
 
-div
+.question-author
   b Author:
   = @question.author&.email
   div
@@ -14,17 +14,22 @@ div
               :method => :delete,
               data: { confirm: t('.confirm') }
 
-div
+.answers
   h1 Answers
 
-div
-  = render template: "answers/new"
+  .new-answer
+    = render 'shared/errors', resource: @answer
 
-table id='Answers'
-  thead
-    tr
-      th Answer
-      th Author
-      th Actions
-  tbody
-    = render @question.answers
+    = form_with model: [@question, @answer], local: true do |f|
+      p= f.label :body, 'Your answer'
+      = f.text_area :body
+      p= f.submit 'Create'
+
+  table id='Answers'
+    thead
+      tr
+        th Answer
+        th Author
+        th Actions
+    tbody
+      = render @question.answers
