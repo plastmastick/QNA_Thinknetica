@@ -6,28 +6,9 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer) }
   let(:user) { create(:user) }
 
-  describe 'GET #new' do
-    before do
-      login(user)
-      get :new, params: { question_id: answer.question, id: answer }
-    end
-
-    it 'assigns a new answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'assigns the requested question of answer to @question' do
-      expect(assigns(:question)).to eq answer.question
-    end
-
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
-  end
-
   describe 'POST #create' do
     let!(:answer) { create(:answer) }
-    let(:create_answer) { post :create, params: { question_id: answer.question, answer: attributes_for(:answer) } }
+    let(:create_answer) { post :create, params: { question_id: answer.question, answer: attributes_for(:answer), format: :js  } }
 
     before { login(user) }
 
@@ -49,13 +30,13 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'redirects to show view for @question' do
-        expect(create_answer).to redirect_to assigns(:question)
+        expect(create_answer).to render_template :create
       end
     end
 
     context 'with invalid attributes' do
       let(:create_invalid_answer) do
-        post :create, params: { question_id: answer.question, answer: attributes_for(:answer, :invalid) }
+        post :create, params: { question_id: answer.question, answer: attributes_for(:answer, :invalid), format: :js  }
       end
 
       it 'does not save the answer' do
@@ -63,7 +44,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 're-renders show view for @question' do
-        expect(create_invalid_answer).to render_template "questions/show"
+        expect(create_invalid_answer).to render_template :create
       end
     end
   end
@@ -73,7 +54,10 @@ RSpec.describe AnswersController, type: :controller do
     let(:destroy_answer) { delete :destroy, params: { question_id: answer.question, id: answer } }
 
     describe 'Assigns' do
-      before { destroy_answer }
+      before do
+        login(answer.author)
+        destroy_answer
+      end
 
       it 'the answer to @answer' do
         expect(assigns(:answer)).to eq answer

@@ -17,13 +17,14 @@ h1= @question.title
 .answers
   h1 Answers
 
-  .answer-errors
-    = render 'shared/errors', resource: @answer
+  .new-answer
+    .answer-errors
+      = render 'shared/errors', resource: @answer
 
-  = form_with model: [@question, @answer], local: false do |f|
-      p= f.label :body, 'Your answer'
-      = f.text_area :body
-      p= f.submit 'Create'
+    = form_with model: [@question, @answer], local: false do |f|
+        p= f.label :body, 'Your answer'
+        = f.text_area :body
+        p= f.submit 'Create'
 
   table id='Answers'
     thead
