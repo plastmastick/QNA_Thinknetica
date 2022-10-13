@@ -14,7 +14,7 @@ feature 'User can delete own answer', "
     scenario 'can delete own answer' do
       sign_in(answer.author)
       visit question_path(answer.question)
-      within_table 'Answers' do
+      within('.answers-list') do
         click_on 'Delete'
       end
 
@@ -25,12 +25,12 @@ feature 'User can delete own answer', "
       sign_in(user)
       visit question_path(answer.question)
 
-      expect(within_table('Answers')).not_to have_button 'Delete'
+      expect(within('.answers-list')).not_to have_button 'Delete'
     end
   end
 
   scenario "Unauthenticated user can't delete answer" do
     visit question_path(answer.question)
-    expect(within_table('Answers')).not_to have_button 'Delete'
+    expect(within('.answers-list')).not_to have_button 'Delete'
   end
 end

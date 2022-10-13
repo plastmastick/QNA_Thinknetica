@@ -2,6 +2,7 @@
 
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: %i[create destroy]
+  before_action :set_answer, only: %i[destroy update]
 
   def create
     @question = Question.find(params[:question_id])
@@ -11,7 +12,6 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    set_answer
     @question = @answer.question
 
     if @answer.author == current_user
@@ -20,6 +20,11 @@ class AnswersController < ApplicationController
     else
       render 'questions/show'
     end
+  end
+
+  def update
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   private

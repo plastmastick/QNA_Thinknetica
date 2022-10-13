@@ -10,10 +10,8 @@ import 'jquery'
 import '@popperjs/core'
 import 'bootstrap'
 import "channels"
+import "utilities/control"
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
-
-import $ from "jquery" // be sure is in package.json
-window.$ = $; // to get jQuery or some other library you're after, if you'd want it

@@ -26,11 +26,5 @@ h1= @question.title
         = f.text_area :body
         p= f.submit 'Create'
 
-  table id='Answers'
-    thead
-      tr
-        th Answer
-        th Author
-        th Actions
-    tbody
-      = render @question.answers
+  .answers-list
+   = render @question.answers

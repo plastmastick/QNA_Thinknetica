@@ -1,10 +1,16 @@
-- if answer.persisted?
-  tr
-    td = answer.body
-    td = answer.author&.email
-    td
-      - if answer.author == current_user
+div id="answer-#{answer.id}" class='card border-primary'
+  b= answer.author&.email
+  p= answer.body
+
+
+  - if answer.author == current_user
         = button_to t('.delete'),
                 answer_path(answer),
                 method: :delete,
                 data: { confirm: t('.confirm') }
+        = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+
+  = form_with model: answer, class: 'hide', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+    = f.label :body, 'Your answer'
+    = f.text_area :body
+    = f.submit 'Save'
