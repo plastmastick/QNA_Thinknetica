@@ -36,3 +36,18 @@ Metrics/BlockLength:
 
 Lint/RedundantSafeNavigation:
   Enabled: false
+
+RSpec/ExampleLength:
+  Exclude:
+    - 'spec/features/*'
+    - 'spec/features/**/*'
+
+RSpec/MultipleExpectations:
+  Exclude:
+    - 'spec/features/*'
+    - 'spec/features/**/*'
+
+RSpec/Capybara/FeatureMethods:
+  Exclude:
+    - 'spec/features/*'
+    - 'spec/features/**/*'

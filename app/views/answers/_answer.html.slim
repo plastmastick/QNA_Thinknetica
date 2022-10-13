@@ -1,0 +1,10 @@
+- if answer.persisted?
+  tr
+    td = answer.body
+    td = answer.author&.email
+    td
+      - if answer.author == current_user
+        = button_to t('.delete'),
+                answer_path(answer),
+                method: :delete,
+                data: { confirm: t('.confirm') }

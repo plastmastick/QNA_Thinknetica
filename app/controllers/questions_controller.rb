@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
+  before_action :authenticate_user!, except: %i[index show]
   before_action :set_question, only: %i[show edit update destroy]
 
   def index
@@ -16,10 +17,10 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def create
-    @question = Question.new(question_params)
+    @question = current_user.author_questions.build(question_params)
 
     if @question.save
-      redirect_to @question
+      redirect_to @question, notice: t('question.success_created')
     else
       render :new
     end
@@ -34,8 +35,12 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path
+    if @question.author == current_user
+      @question.destroy
+      redirect_to questions_path, notice: t('question.success_deleted')
+    else
+      render :show
+    end
   end
 
   private
