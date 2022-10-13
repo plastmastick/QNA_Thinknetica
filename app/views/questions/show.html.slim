@@ -17,10 +17,10 @@ h1= @question.title
 .answers
   h1 Answers
 
-  .new-answer
+  .answer-errors
     = render 'shared/errors', resource: @answer
 
-    = form_with model: [@question, @answer], local: true do |f|
+  = form_with model: [@question, @answer], local: false, format: :js do |f|
       p= f.label :body, 'Your answer'
       = f.text_area :body
       p= f.submit 'Create'
