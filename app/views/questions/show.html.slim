@@ -1,30 +1,46 @@
-h1= @question.title
+.question class='row mt-3 justify-content-center'
+  .card class='col-6 card border-secondary'
 
-.question-body
-  b Question:
-  = @question.body
+    .header class='row card-header flex'
+      h1 class="text-center"
+        = @question.title
 
-.question-author
-  b Author:
-  = @question.author&.email
-  div
-    - if @question.author == current_user
-      = button_to t('.delete'),
-              question_path(@question),
-              :method => :delete,
-              data: { confirm: t('.confirm') }
+    .body class='card-body'
+      = @question.body
 
-.answers
-  h1 Answers
+    .footer class='row card-footer'
+      .actions class='col-3'
+        - if @question.author == current_user
+          = button_to t('.delete'),
+                  question_path(@question),
+                  :method => :delete,
+                  class: 'btn btn-outline-dark fw-bold',
+                  data: { confirm: t('.confirm') }
 
-  .new-answer
-    .answer-errors
-      = render 'shared/errors', resource: @answer
+      div class='col-9 mt-2 text-end'
+        b Author:
+        '
+        = @question.author&.email
 
+.answers class='row mt-3 justify-content-center'
+  h1 class='text-center' Answers
+
+  .new-answer class='col-6 mt-3 card border-secondary'
     = form_with model: [@question, @answer], local: false do |f|
-        p= f.label :body, 'Your answer'
-        = f.text_area :body
-        p= f.submit 'Create'
+      .new-answer-header class='row card-header flex'
+        = f.label :body, 'Your answer'
+
+      .new-answer-body class='card-body'
+        = f.text_area :body,
+                rows: 4,
+                cols: 60,
+                class: "form-control"
+
+        .answer-errors
+          = render 'shared/errors', resource: @answer
+
+      .new-answer-actions class='mb-2 text-start'
+        = f.submit 'Create', class: 'btn btn-outline-dark fw-bold'
 
   .answers-list
-   = render @question.answers
+    = render @question.answers

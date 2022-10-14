@@ -1,4 +1,4 @@
-$('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
+$('.new-answer').find('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
 
 <% if @answer.persisted? %>
   $('.notice').html('<%= t('answer.success_created') %>')

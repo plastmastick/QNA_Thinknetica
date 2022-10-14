@@ -12,6 +12,7 @@ feature 'User can create answer', "
 
   describe 'Authenticated user', js: true do
     background do
+      page.driver.browser.manage.window.resize_to(1920, 1080)
       sign_in(user)
       visit question_path(question)
     end
@@ -20,7 +21,9 @@ feature 'User can create answer', "
       fill_in 'Your answer', with: 'textAnswer'
       click_on 'Create'
 
-      expect(page).to have_content 'Your answer successfully created.'
+      within('.flash') do
+        expect(page).to have_content 'Your answer successfully created.'
+      end
       expect(page).to have_content 'textAnswer'
     end
 

@@ -12,6 +12,11 @@ html
   body
     = render 'shared/nav'
 
-    p class="notice" = notice
-    p class="alert" = alert
-    = yield
+    .flash
+      p class="notice" = notice
+      p class="alert" = alert
+
+    div style="margin-bottom: 150px;"
+      = yield
+
+    = render 'shared/footer'

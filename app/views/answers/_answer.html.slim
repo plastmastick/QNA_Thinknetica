@@ -1,16 +1,35 @@
-div id="answer-#{answer.id}" class='card border-primary'
-  b= answer.author&.email
-  p= answer.body
+div id="answer-#{answer.id}" class='row mt-3 justify-content-center'
 
+  .card class='col-6 card border-secondary'
 
-  - if answer.author == current_user
-        = button_to t('.delete'),
-                answer_path(answer),
-                method: :delete,
-                data: { confirm: t('.confirm') }
-        = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    .body class='card-body'
+      p= answer.body
 
-  = form_with model: answer, class: 'hide', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
-    = f.label :body, 'Your answer'
-    = f.text_area :body
-    = f.submit 'Save'
+      = form_with model: answer, class: 'hide', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+        = f.label :body, 'Edit answer:'
+        = f.text_area :body,
+                rows: 4,
+                cols: 60,
+                class: "form-control"
+        = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
+
+      .answer-errors
+        = render 'shared/errors', resource: answer
+
+    .footer class='row card-footer'
+      .actions class='col-3'
+        - if answer.author == current_user
+          = link_to t('.delete'),
+                  answer_path(answer),
+                  method: :delete,
+                  class: 'btn btn-outline-dark fw-bold me-3',
+                  data: { confirm: t('.confirm') }
+          = link_to 'Edit',
+                  '#',
+                  class: 'ml-1 btn btn-outline-dark fw-bold edit-answer-link',
+                  data: { answer_id: answer.id }
+
+      div class='col-9 mt-2 text-end'
+        b Author:
+        '
+        = answer.author&.email

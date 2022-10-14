@@ -15,7 +15,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise'
 gem 'slim-rails'
-gem "twitter-bootstrap-rails"
+gem "bootstrap"
 gem 'jquery-rails'
 
 group :development, :test do
