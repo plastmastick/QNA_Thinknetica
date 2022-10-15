@@ -2,22 +2,41 @@
   .card class='col-6 card border-secondary'
 
     .header class='row card-header flex'
-      h1 class="text-center"
+      h1 class="text-center question-title"
         = @question.title
 
     .body class='card-body'
-      = @question.body
+      span class='question-body'
+        = @question.body
+
+      = form_with model: @question, class: 'hide', html: { id: "edit-question" }, local: false do |f|
+        p
+          = f.label :title, 'Edit title:'
+          '
+          = f.text_field :title
+        p= f.label :body, 'Edit question:'
+        = f.text_area :body,
+                rows: 4,
+                cols: 60,
+                class: "form-control"
+        = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
+
+      .question-errors
+        = render 'shared/errors', resource: @question
 
     .footer class='row card-footer'
       .actions class='col-3'
         - if @question.author == current_user
-          = button_to t('.delete'),
+          = link_to t('.delete'),
                   question_path(@question),
                   :method => :delete,
-                  class: 'btn btn-outline-dark fw-bold',
+                  class: 'btn btn-outline-dark fw-bold me-3',
                   data: { confirm: t('.confirm') }
+          = link_to 'Edit',
+                  '#',
+                  class: 'ml-1 btn btn-outline-dark fw-bold edit-question-link'
 
-      div class='col-9 mt-2 text-end'
+      .author class='col-9 mt-2 text-end'
         b Author:
         '
         = @question.author&.email

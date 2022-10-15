@@ -2,6 +2,7 @@ en:
   question:
     success_created: "Your question successfully created."
     success_deleted: "Your question successfully deleted."
+    success_edited: "Your question successfully edited."
   answer:
     success_created: "Your answer successfully created."
     success_deleted: "Your answer successfully deleted."

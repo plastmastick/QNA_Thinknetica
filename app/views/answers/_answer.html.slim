@@ -29,7 +29,7 @@ div id="answer-#{answer.id}" class='row mt-3 justify-content-center'
                   class: 'ml-1 btn btn-outline-dark fw-bold edit-answer-link',
                   data: { answer_id: answer.id }
 
-      div class='col-9 mt-2 text-end'
+      .author class='col-9 mt-2 text-end'
         b Author:
         '
         = answer.author&.email

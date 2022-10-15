@@ -97,6 +97,7 @@ RSpec.describe AnswersController, type: :controller do
     let!(:answer) { create(:answer) }
     let(:update_answer) {
       patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+      answer.reload
     }
 
     context 'with valid attributes and current user is author of answer' do
@@ -104,7 +105,6 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'changes answer attributes' do
         update_answer
-        answer.reload
         expect(answer.body).to eq 'new body'
       end
 
@@ -115,16 +115,18 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes and current user is author of answer' do
+      let(:update_answer_invalid) {
+        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+        answer.reload
+      }
       before { login(answer.author) }
 
       it 'does not change answer attributes' do
-        expect do
-          patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
-        end.to_not change(answer, :body)
+        expect {update_answer_invalid}.to_not change(answer, :body)
       end
 
       it 'renders update view' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+        update_answer_invalid
         expect(response).to render_template :update
       end
     end
@@ -134,7 +136,6 @@ RSpec.describe AnswersController, type: :controller do
 
       it "can't update answer in database" do
         update_answer
-        answer.reload
         expect(answer.body).to eq "MyText"
       end
 

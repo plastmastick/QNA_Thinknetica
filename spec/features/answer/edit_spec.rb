@@ -57,7 +57,7 @@ feature 'User can edit his answer', %q{
     end
 
     scenario "tries to edit other user's answer" do
-      sign_in(answer.author)
+      sign_in(user)
       visit question_path(question)
       expect(within('.answers-list')).not_to have_button 'Edit'
     end
