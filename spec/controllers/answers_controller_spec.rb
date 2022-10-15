@@ -8,7 +8,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     let!(:answer) { create(:answer) }
-    let(:create_answer) { post :create, params: { question_id: answer.question, answer: attributes_for(:answer), format: :js  } }
+    let(:create_answer) { post :create, params: { question_id: answer.question, answer: attributes_for(:answer), format: :js } }
 
     before { login(user) }
 
@@ -36,7 +36,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       let(:create_invalid_answer) do
-        post :create, params: { question_id: answer.question, answer: attributes_for(:answer, :invalid), format: :js  }
+        post :create, params: { question_id: answer.question, answer: attributes_for(:answer, :invalid), format: :js }
       end
 
       it 'does not save the answer' do
@@ -95,21 +95,28 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     let!(:answer) { create(:answer) }
+    let(:update_answer) {
+      patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+    }
 
-    context 'with valid attributes' do
+    context 'with valid attributes and current user is author of answer' do
+      before { login(answer.author) }
+
       it 'changes answer attributes' do
-        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+        update_answer
         answer.reload
         expect(answer.body).to eq 'new body'
       end
 
       it 'renders update view' do
-        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+        update_answer
         expect(response).to render_template :update
       end
     end
 
-    context 'with invalid attributes' do
+    context 'with invalid attributes and current user is author of answer' do
+      before { login(answer.author) }
+
       it 'does not change answer attributes' do
         expect do
           patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
@@ -118,6 +125,21 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'renders update view' do
         patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context "when current user isn't author of answer" do
+      before { login(user) }
+
+      it "can't update answer in database" do
+        update_answer
+        answer.reload
+        expect(answer.body).to eq "MyText"
+      end
+
+      it 'renders update view' do
+        update_answer
         expect(response).to render_template :update
       end
     end

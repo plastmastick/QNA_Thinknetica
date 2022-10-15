@@ -5,6 +5,7 @@ en:
   answer:
     success_created: "Your answer successfully created."
     success_deleted: "Your answer successfully deleted."
+    success_edited: "Your answer successfully edited."
   shared:
     nav:
       logout: "Log out"

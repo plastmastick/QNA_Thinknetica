@@ -23,8 +23,10 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer.update(answer_params)
     @question = @answer.question
+    return unless @answer.author == current_user
+
+    @answer.update(answer_params)
   end
 
   private
