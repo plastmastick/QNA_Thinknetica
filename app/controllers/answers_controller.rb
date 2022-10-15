@@ -3,6 +3,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: %i[create destroy]
   before_action :set_answer, only: %i[destroy update]
+  before_action :set_question, only: %i[destroy update]
 
   def create
     @question = Question.find(params[:question_id])
@@ -12,18 +13,12 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @question = @answer.question
+    return unless @answer.author == current_user
 
-    if @answer.author == current_user
-      @answer.destroy
-      redirect_to question_path(@question), notice: t('answer.success_deleted')
-    else
-      render 'questions/show'
-    end
+    @answer.destroy
   end
 
   def update
-    @question = @answer.question
     return unless @answer.author == current_user
 
     @answer.update(answer_params)
@@ -33,6 +28,10 @@ class AnswersController < ApplicationController
 
   def set_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def set_question
+    @question = @answer.question
   end
 
   def answer_params

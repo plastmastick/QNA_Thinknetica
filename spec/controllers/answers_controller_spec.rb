@@ -51,7 +51,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'DELETE #destroy' do
     let!(:answer) { create(:answer) }
-    let(:destroy_answer) { delete :destroy, params: { question_id: answer.question, id: answer } }
+    let(:destroy_answer) { delete :destroy, params: { question_id: answer.question, id: answer }, format: :js }
 
     describe 'Assigns' do
       before do
@@ -75,8 +75,8 @@ RSpec.describe AnswersController, type: :controller do
         expect { destroy_answer }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects to show view of @question' do
-        expect(destroy_answer).to redirect_to question_path(assigns(:question))
+      it 'render destroy view' do
+        expect(destroy_answer).to render_template :destroy
       end
     end
 
@@ -87,8 +87,8 @@ RSpec.describe AnswersController, type: :controller do
         expect { destroy_answer }.not_to change(Question, :count)
       end
 
-      it "render show view of @question" do
-        expect(destroy_answer).to render_template 'questions/show'
+      it 'render destroy view' do
+        expect(destroy_answer).to render_template :destroy
       end
     end
   end
