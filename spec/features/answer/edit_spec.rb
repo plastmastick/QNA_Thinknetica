@@ -20,6 +20,7 @@ feature 'User can edit his answer', "
   describe 'Authenticated user' do
     describe 'edits his', js: true do
       background do
+        page.driver.browser.manage.window.resize_to(1920, 1080)
         sign_in(answer.author)
         visit question_path(question)
         within('.answers-list') { click_on 'Edit' }
@@ -35,9 +36,7 @@ feature 'User can edit his answer', "
           expect(page).not_to have_selector 'textarea'
         end
 
-        within('.flash') do
-          expect(page).to have_content 'Your answer successfully edited.'
-        end
+        within('.flash') { expect(page).to have_content 'Your answer successfully edited.' }
       end
 
       scenario 'answer with errors' do
@@ -48,10 +47,6 @@ feature 'User can edit his answer', "
           expect(page).to have_content answer.body
           expect(page).to have_selector 'textarea'
           expect(page).to have_content "Answer can't be blank"
-        end
-
-        within('.flash') do
-          expect(page).not_to have_content 'Your answer successfully edited.'
         end
       end
     end

@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, only: %i[create destroy]
   before_action :set_answer, only: %i[destroy update best]
   before_action :set_question, only: %i[destroy update best]
+  before_action :set_answers_by_best, only: %i[destroy update best]
 
   def create
     @question = Question.find(params[:question_id])
@@ -25,7 +26,6 @@ class AnswersController < ApplicationController
   end
 
   def best
-    @answers = @question.answers.sort_by_best
     return unless @question.author == current_user
 
     @answer.mark_as_best
@@ -39,6 +39,10 @@ class AnswersController < ApplicationController
 
   def set_question
     @question = @answer.question
+  end
+
+  def set_answers_by_best
+    @answers = @question.answers.sort_by_best
   end
 
   def answer_params

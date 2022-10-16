@@ -49,10 +49,6 @@ feature 'User can edit his question', "
           expect(page).to have_selector 'textarea'
           expect(page).to have_content "Title can't be blank"
         end
-
-        within('.flash') do
-          expect(page).not_to have_content 'Your question successfully edited.'
-        end
       end
     end
 
