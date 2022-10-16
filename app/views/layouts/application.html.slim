@@ -12,11 +12,11 @@ html
   body
     = render 'shared/nav'
 
-    .flash
-      p class="notice" = notice
-      p class="alert" = alert
+    div class="container mt-3 justify-content-center" style="margin-bottom: 150px;"
+      .flash
+        div class='notice alert alert-success text-dark hide' = notice
+        div class='alert alert-danger text-dark hide' = alert
 
-    div style="margin-bottom: 150px;"
       = yield
 
     = render 'shared/footer'

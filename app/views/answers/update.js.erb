@@ -1,6 +1,7 @@
 $('#answer-' + <%= @answer.id %>).find('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
 
 <% unless @answer.errors.present? %>
-  $('.notice').html('<%= t('answer.success_edited') %>')
-  $('.answers-list').html('<%= j render @question.answers %>');
+  $('.notice').html('<%= t('answer.success_edited') %>');
+  $('.notice').removeClass('hide');
+  $('.answers-list').html('<%= j render @answers %>');
 <% end %>

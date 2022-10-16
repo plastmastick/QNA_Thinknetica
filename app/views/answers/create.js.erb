@@ -1,7 +1,8 @@
 $('.new-answer').find('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
 
 <% if @answer.persisted? %>
-  $('.notice').html('<%= t('answer.success_created') %>')
+  $('.notice').html('<%= t('answer.success_created') %>');
+  $('.notice').removeClass('hide');
   $('.answers-list').append('<%= j render @answer %>');
   $('.new-answer #answer_body').val('');
 <% end %>
