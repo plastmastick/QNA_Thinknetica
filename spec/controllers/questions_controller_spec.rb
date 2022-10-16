@@ -93,10 +93,10 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'PATCH #update' do
     let!(:question) { create(:question) }
-    let(:update_question) {
+    let(:update_question) do
       patch :update, params: { id: question, question: { title: 'new title', body: 'new body' }, format: :js }
       question.reload
-    }
+    end
 
     context 'with valid attributes and current user is author of question' do
       before do
@@ -118,10 +118,10 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'with invalid attributes and current user is author of question' do
-      let(:update_question_invalid) {
+      let(:update_question_invalid) do
         patch :update, params: { id: question, question: attributes_for(:question, :invalid), format: :js }
         question.reload
-      }
+      end
 
       before { login(question.author) }
 

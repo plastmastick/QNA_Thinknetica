@@ -20,6 +20,6 @@ class Answer < ApplicationRecord
   def validate_best_answers_count
     return if best == false || question.answers.best.count.zero? || question.answers.best == self
 
-    errors.add(:best, "A question can only have one best answer")
+    errors.add(:best, :uniq_best_answer)
   end
 end

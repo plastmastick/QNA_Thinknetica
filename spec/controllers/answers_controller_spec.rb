@@ -8,7 +8,9 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     let!(:answer) { create(:answer) }
-    let(:create_answer) { post :create, params: { question_id: answer.question, answer: attributes_for(:answer), format: :js } }
+    let(:create_answer) do
+      post :create, params: { question_id: answer.question, answer: attributes_for(:answer), format: :js }
+    end
 
     before { login(user) }
 
@@ -119,10 +121,11 @@ RSpec.describe AnswersController, type: :controller do
         patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
         answer.reload
       end
+
       before { login(answer.author) }
 
       it 'does not change answer attributes' do
-        expect {update_answer_invalid}.to_not change(answer, :body)
+        expect { update_answer_invalid }.not_to change(answer, :body)
       end
 
       it 'renders update view' do

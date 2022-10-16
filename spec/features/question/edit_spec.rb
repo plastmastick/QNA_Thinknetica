@@ -1,21 +1,21 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can edit his question', %q{
+feature 'User can edit his question', "
   In order to correct mistakes
   As an author of question
   I'd like ot be able to edit my question
-} do
-
+" do
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
 
   scenario 'Unauthenticated can not edit question' do
     visit question_path(question)
-    expect(within('.question')).to_not have_button 'Edit'
+    expect(within('.question')).not_to have_button 'Edit'
   end
 
   describe 'Authenticated user', js: true do
-
     describe 'edits his' do
       background do
         sign_in(question.author)
@@ -29,10 +29,10 @@ feature 'User can edit his question', %q{
           fill_in 'Edit question', with: 'edited question'
           click_on 'Save'
 
-          expect(page).to_not have_content question.body
+          expect(page).not_to have_content question.body
           expect(page).to have_content 'edited title'
           expect(page).to have_content 'edited question'
-          expect(page).to_not have_selector 'textarea'
+          expect(page).not_to have_selector 'textarea'
         end
 
         within('.flash') do

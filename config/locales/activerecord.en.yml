@@ -1,0 +1,21 @@
+en:
+  activerecord:
+    models:
+      question: "Question"
+      answer: "Answer"
+      user: "User"
+
+    attributes:
+      question:
+        title: "Title"
+        body: "Question"
+      user:
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+      answer:
+        body: "Answer"
+
+    errors:
+      messages:
+        uniq_best_answer: "A question can only have one best answer"

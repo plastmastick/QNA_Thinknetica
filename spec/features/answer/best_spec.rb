@@ -7,7 +7,6 @@ feature 'Author of question can select the best answer', "
   As an author of question
   I'd like to be able select the best answer for my question
 " do
-
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
   given!(:answers) { create_list(:answer, 2, question: question) }
@@ -37,7 +36,5 @@ feature 'Author of question can select the best answer', "
     scenario 'as not the author of the question, cannot choose the best answer' do
       expect(within('.answers-list')).not_to have_button 'Best'
     end
-
   end
-
 end
