@@ -62,4 +62,4 @@
         = f.submit 'Create', class: 'btn btn-outline-dark fw-bold'
 
   .answers-list
-    = render @question.answers
+    = render @question.answers.sort_by_best

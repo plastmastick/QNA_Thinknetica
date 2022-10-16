@@ -1,6 +1,9 @@
-div id="answer-#{answer.id}" class='row mt-3 justify-content-center'
+div id="answer-#{answer.id}" class='answer row mt-3 justify-content-center'
 
-  .card class='col-6 card border-secondary'
+  .card class='col-6 card'
+
+    - if answer.best
+      .header class='row card-header bg-primary text-light' Best answer
 
     .body class='card-body'
       p= answer.body
@@ -27,7 +30,15 @@ div id="answer-#{answer.id}" class='row mt-3 justify-content-center'
                   data: { confirm: t('.confirm') }
           = link_to 'Edit',
                   '#',
-                  class: 'ml-1 btn btn-outline-dark fw-bold edit-answer-link',
+                  class: 'ml-1 btn btn-outline-dark fw-bold me-3 edit-answer-link',
+                  data: { answer_id: answer.id }
+
+        - if answer.question.author == current_user && !answer.best
+          = link_to 'Best',
+                  best_answer_path(answer),
+                  method: :patch,
+                  remote: true,
+                  class: 'ml-1 btn btn-outline-dark fw-bold',
                   data: { answer_id: answer.id }
 
       .author class='col-9 mt-2 text-end'

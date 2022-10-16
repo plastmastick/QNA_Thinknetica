@@ -95,10 +95,10 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     let!(:answer) { create(:answer) }
-    let(:update_answer) {
+    let(:update_answer) do
       patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
       answer.reload
-    }
+    end
 
     context 'with valid attributes and current user is author of answer' do
       before { login(answer.author) }
@@ -115,10 +115,10 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes and current user is author of answer' do
-      let(:update_answer_invalid) {
+      let(:update_answer_invalid) do
         patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
         answer.reload
-      }
+      end
       before { login(answer.author) }
 
       it 'does not change answer attributes' do
@@ -142,6 +142,56 @@ RSpec.describe AnswersController, type: :controller do
       it 'renders update view' do
         update_answer
         expect(response).to render_template :update
+      end
+    end
+  end
+
+  describe 'PATCH #best' do
+    let!(:answer) { create(:answer) }
+    let(:best_answer) do
+      patch :best, params: { id: answer }, format: :js
+      answer.reload
+    end
+
+    describe 'Assigns' do
+      before do
+        login(answer.question.author)
+        best_answer
+      end
+
+      it 'the answer to @answer' do
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'the question of deleted answer to @question' do
+        expect(assigns(:question)).to eq answer.question
+      end
+    end
+
+    context 'when current user is author of question of answer' do
+      before { login(answer.question.author) }
+
+      it 'changes answer attributes' do
+        best_answer
+        expect(answer.best).to be true
+      end
+
+      it 'renders update view' do
+        best_answer
+        expect(response).to render_template :best
+      end
+    end
+
+    context "when current user isn't author of question of answer" do
+      before { login(user) }
+
+      it "can't update answer in database" do
+        expect { best_answer }.to not_change(answer, :best)
+      end
+
+      it 'renders best view' do
+        best_answer
+        expect(response).to render_template :best
       end
     end
   end

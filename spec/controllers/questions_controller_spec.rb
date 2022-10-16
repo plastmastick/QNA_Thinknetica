@@ -21,6 +21,9 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
+    let!(:question) { create(:question) }
+    let(:answers) { create_list(:answer, 3, question: question) }
+
     before { get :show, params: { id: question } }
 
     it 'assigns the requested question to @question' do
@@ -29,6 +32,10 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns a new Answer to @answer' do
       expect(assigns(:answer)).to be_a_new(Answer)
+    end
+
+    it 'populates an array of all answers of question sort by best desc' do
+      expect(assigns(:answers)).to match_array(answers)
     end
 
     it 'renders show view' do
