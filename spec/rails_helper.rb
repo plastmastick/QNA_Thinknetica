@@ -38,6 +38,10 @@ RSpec.configure do |config|
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
 
+  Capybara.javascript_driver = :selenium_chrome_headless
+
+  RSpec::Matchers.define_negated_matcher :not_change, :change
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 

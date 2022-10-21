@@ -1,0 +1,5 @@
+<% unless @answer.persisted? %>
+  $('.notice').html('<%= t('answer.success_deleted') %>');
+  $('.notice').removeClass('hide');
+  $('.answers-list').html('<%= j render @answers %>');
+<% end %>

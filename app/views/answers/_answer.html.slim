@@ -1,10 +1,47 @@
-- if answer.persisted?
-  tr
-    td = answer.body
-    td = answer.author&.email
-    td
-      - if answer.author == current_user
-        = button_to t('.delete'),
-                answer_path(answer),
-                method: :delete,
-                data: { confirm: t('.confirm') }
+div id="answer-#{answer.id}" class='answer row mt-3'
+
+  .card class='card'
+
+    - if answer.best
+      .header class='row card-header bg-primary text-light' Best answer
+
+    .body class='card-body'
+      p= answer.body
+
+      = form_with model: answer, class: 'hide', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+        = f.label :body, 'Edit answer:'
+        = f.text_area :body,
+                rows: 4,
+                cols: 60,
+                class: "form-control"
+        = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
+
+      .answer-errors
+        = render 'shared/errors', resource: answer
+
+    .footer class='row card-footer'
+      .actions class='col-3'
+        - if answer.author == current_user
+          = link_to t('.delete'),
+                  answer_path(answer),
+                  method: :delete,
+                  remote: true,
+                  class: 'btn btn-outline-dark fw-bold me-3',
+                  data: { confirm: t('.confirm') }
+          = link_to 'Edit',
+                  '#',
+                  class: 'ml-1 btn btn-outline-dark fw-bold me-3 edit-answer-link',
+                  data: { answer_id: answer.id }
+
+        - if answer.question.author == current_user && !answer.best
+          = link_to 'Best',
+                  best_answer_path(answer),
+                  method: :patch,
+                  remote: true,
+                  class: 'ml-1 btn btn-outline-dark fw-bold',
+                  data: { answer_id: answer.id }
+
+      .author class='col-9 mt-2 text-end'
+        b Author:
+        '
+        = answer.author&.email

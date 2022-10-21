@@ -1,18 +1,23 @@
-div style="float: right"
-  span
-    - if user_signed_in?
-      = t('.welcome')
-      '
-      b= current_user.email
-      '
-      = link_to t('.logout'), destroy_user_session_path, method: :delete
-    - elsif controller_name == 'sessions'
-      = link_to t('.signup'), new_user_registration_path
-    - elsif controller_name == 'registrations'
-      = link_to t('.login'), new_user_session_path
-    - else
-      = link_to t('.signup'), new_user_registration_path
-      '
-      b |
-      '
-      = link_to t('.login'), new_user_session_path
+nav class="navbar navbar-expand navbar-dark bg-primary"
+
+  div class='container-fluid'
+    = link_to 'QNA', root_path, class: 'navbar-brand mb-0 h1'
+
+    span class="navbar-text"
+      - if user_signed_in?
+        = t('.welcome')
+        '
+        b= current_user.email
+        ' |
+        '
+        = link_to t('.logout'), destroy_user_session_path, method: :delete
+      - elsif controller_name == 'sessions'
+        = link_to t('.signup'), new_user_registration_path
+      - elsif controller_name == 'registrations'
+        = link_to t('.login'), new_user_session_path
+      - else
+        = link_to t('.signup'), new_user_registration_path
+        '
+        b |
+        '
+        = link_to t('.login'), new_user_session_path

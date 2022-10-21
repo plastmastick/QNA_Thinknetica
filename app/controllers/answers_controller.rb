@@ -1,41 +1,48 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: %i[new create]
-
-  def new
-    @question = Question.find(params[:question_id])
-    @answer = @question.answers.new
-  end
+  before_action :authenticate_user!, only: %i[create destroy]
+  before_action :set_answer, only: %i[destroy update best]
+  before_action :set_question, only: %i[destroy update best]
+  before_action :set_answers_by_best, only: %i[destroy update best]
 
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.build(answer_params)
     @answer.author = current_user
-
-    if @answer.save
-      redirect_to @question, notice: t('answer.success_created')
-    else
-      render "questions/show"
-    end
+    @answer.save
   end
 
   def destroy
-    set_answer
-    @question = @answer.question
+    return unless @answer.author == current_user
 
-    if @answer.author == current_user
-      @answer.destroy
-      redirect_to question_path(@question), notice: t('answer.success_deleted')
-    else
-      render 'questions/show'
-    end
+    @answer.destroy
+  end
+
+  def update
+    return unless @answer.author == current_user
+
+    @answer.update(answer_params)
+  end
+
+  def best
+    return unless @question.author == current_user
+
+    @answer.mark_as_best
   end
 
   private
 
   def set_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def set_question
+    @question = @answer.question
+  end
+
+  def set_answers_by_best
+    @answers = @question.answers.sort_by_best
   end
 
   def answer_params

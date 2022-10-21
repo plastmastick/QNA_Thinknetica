@@ -12,8 +12,7 @@ feature 'User can view answers list', "
   background { visit question_path(answer.question) }
 
   scenario 'User view answers list' do
-    expect(page).to have_table 'Answers'
-    within_table 'Answers' do
+    within('.answers-list') do
       expect(page).to have_text answer.body
       expect(page).to have_text answer.author.email
     end

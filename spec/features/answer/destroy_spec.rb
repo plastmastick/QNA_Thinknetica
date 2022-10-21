@@ -11,11 +11,12 @@ feature 'User can delete own answer', "
   given(:answer) { create(:answer) }
 
   describe 'Authenticated user' do
-    scenario 'can delete own answer' do
+    scenario 'can delete own answer', js: true do
+      page.driver.browser.manage.window.resize_to(1920, 1080)
       sign_in(answer.author)
       visit question_path(answer.question)
-      within_table 'Answers' do
-        click_on 'Delete'
+      within('.answers-list') do
+        accept_alert { click_on 'Delete' }
       end
 
       expect(page).to have_content 'Your answer successfully deleted.'
@@ -25,12 +26,12 @@ feature 'User can delete own answer', "
       sign_in(user)
       visit question_path(answer.question)
 
-      expect(within_table('Answers')).not_to have_button 'Delete'
+      expect(within('.answers-list')).not_to have_button 'Delete'
     end
   end
 
   scenario "Unauthenticated user can't delete answer" do
     visit question_path(answer.question)
-    expect(within_table('Answers')).not_to have_button 'Delete'
+    expect(within('.answers-list')).not_to have_button 'Delete'
   end
 end
