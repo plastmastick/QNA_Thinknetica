@@ -8,9 +8,9 @@
     .body class='card-body'
       span class='question-body'
         = @question.body
-        - if @question.files.attached?
-          - @question.files.each do |file|
-            p= link_to file.filename.to_s, url_for(file)
+
+      span class='question-files'
+        = render 'questions/question_files'
 
       = form_with model: @question, class: 'hide', html: { id: "edit-question" }, local: false do |f|
         p
@@ -23,6 +23,9 @@
                   rows: 4,
                   cols: 60,
                   class: "form-control"
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true
         = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
 
       .question-errors

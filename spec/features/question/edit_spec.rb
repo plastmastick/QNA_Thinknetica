@@ -50,6 +50,19 @@ feature 'User can edit his question', "
           expect(page).to have_content "Title can't be blank"
         end
       end
+
+      scenario 'question with new attached files' do
+        within '.question' do
+          fill_in 'Edit title', with: 'edited title'
+          fill_in 'Edit question', with: 'edited question'
+          attach_file 'File', [Rails.root.join('spec/rails_helper.rb'), Rails.root.join('spec/spec_helper.rb')]
+          click_on 'Save'
+
+          expect(page).to have_link 'questions_factory.rb'
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
+        end
+      end
     end
 
     scenario "tries to edit other user's question" do

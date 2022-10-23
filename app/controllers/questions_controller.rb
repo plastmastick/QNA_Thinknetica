@@ -30,7 +30,8 @@ class QuestionsController < ApplicationController
   def update
     return unless @question.author == current_user
 
-    @question.update(question_params)
+    @question.update(title: question_params[:title], body: question_params[:body])
+    @question.files.attach(question_params[:files]) if question_params[:files]
   end
 
   def destroy

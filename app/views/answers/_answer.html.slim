@@ -13,11 +13,15 @@ div id="answer-#{answer.id}" class='answer row mt-3'
           p= link_to file.filename.to_s, url_for(file)
 
       = form_with model: answer, class: 'hide', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
-        = f.label :body, 'Edit answer:'
-        = f.text_area :body,
-                rows: 4,
-                cols: 60,
-                class: "form-control"
+        p
+          = f.label :body, 'Edit answer:'
+          = f.text_area :body,
+                  rows: 4,
+                  cols: 60,
+                  class: "form-control"
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true
         = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
 
       .answer-errors

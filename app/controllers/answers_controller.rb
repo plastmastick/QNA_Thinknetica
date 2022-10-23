@@ -22,7 +22,8 @@ class AnswersController < ApplicationController
   def update
     return unless @answer.author == current_user
 
-    @answer.update(answer_params)
+    @answer.update(body: answer_params[:body])
+    @answer.files.attach(answer_params[:files]) if answer_params[:files]
   end
 
   def best

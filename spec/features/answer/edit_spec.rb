@@ -49,6 +49,18 @@ feature 'User can edit his answer', "
           expect(page).to have_content "Answer can't be blank"
         end
       end
+
+      scenario 'answer with new attached files' do
+        within '.answers-list' do
+          fill_in 'Your answer', with: 'textAnswer'
+          attach_file 'File', [Rails.root.join('spec/rails_helper.rb'), Rails.root.join('spec/spec_helper.rb')]
+          click_on 'Save'
+
+          expect(page).to have_link 'answers_factory.rb'
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
+        end
+      end
     end
 
     scenario "tries to edit other user's answer" do
