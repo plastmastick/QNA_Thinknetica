@@ -17,11 +17,12 @@
           = f.label :title, 'Edit title:'
           '
           = f.text_field :title
-        p= f.label :body, 'Edit question:'
-        = f.text_area :body,
-                rows: 4,
-                cols: 60,
-                class: "form-control"
+        p
+          = f.label :body, 'Edit question:'
+          = f.text_area :body,
+                  rows: 4,
+                  cols: 60,
+                  class: "form-control"
         = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
 
       .question-errors
@@ -57,6 +58,10 @@
                 rows: 4,
                 cols: 60,
                 class: "form-control"
+
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true
 
         .answer-errors
           = render 'shared/errors', resource: @answer
