@@ -21,7 +21,7 @@ div id="answer-#{answer.id}" class='answer row mt-3'
                   class: "form-control"
         p
           = f.label :files
-          = f.file_field :files, multiple: true
+          = f.file_field :files, multiple: true, direct_upload: true
         = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
 
       .answer-errors
