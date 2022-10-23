@@ -14,7 +14,8 @@ feature 'User can delete own question', "
     scenario 'can delete own question' do
       sign_in(question.author)
       visit question_path(question)
-      click_on 'Delete'
+
+      within('.question .card-footer') { click_on 'Delete' }
 
       expect(page).to have_content 'Your question successfully deleted.'
     end

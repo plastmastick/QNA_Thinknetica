@@ -2,9 +2,9 @@
 
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: %i[create destroy]
-  before_action :set_answer, only: %i[destroy update best]
-  before_action :set_question, only: %i[destroy update best]
-  before_action :set_answers_by_best, only: %i[destroy update best]
+  before_action :set_answer, only: %i[destroy update best delete_file]
+  before_action :set_question, only: %i[destroy update best delete_file]
+  before_action :set_answers_by_best, only: %i[destroy update best delete_file]
 
   def create
     @question = Question.find(params[:question_id])
@@ -32,10 +32,17 @@ class AnswersController < ApplicationController
     @answer.mark_as_best
   end
 
+  def delete_file
+    return unless @answer.files.attached? && @answer.author == current_user
+
+    @answer.files.find(params[:file_id]).purge
+    set_answer
+  end
+
   private
 
   def set_answer
-    @answer = Answer.find(params[:id])
+    @answer = Answer.with_attached_files.find(params[:id])
   end
 
   def set_question

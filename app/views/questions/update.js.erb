@@ -5,10 +5,7 @@ $('.question-errors').html('<%= render 'shared/errors', resource: @question %>')
 
   $('.question-title').html('<%= j @question.title %>');
   $('.question-body').html('<%= j @question.body %>');
-
-  <% if @question.files.attached? %>
-    $('.question-files').html( '<%= render 'questions/question_files' %>' )
-  <% end %>
+  $('.question-files').html('<%= render 'questions/question_files' %>');
 
   $('#edit-question').addClass('hide');
   $('.edit-question-link').removeClass('hide');

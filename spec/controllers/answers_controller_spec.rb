@@ -204,4 +204,34 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #delete_file' do
+    let!(:file) { fixture_file_upload('test_xml.xml', 'text/xml') }
+    let!(:answer) { create(:answer, files: [file]) }
+    let(:delete_file) { delete :delete_file, params: { id: answer, file_id: answer.files.last.id }, format: :js }
+
+    describe 'Author of question' do
+      before { login(answer.author) }
+
+      it 'delete attached file' do
+        expect { delete_file }.to change(answer.files, :count).by(-1)
+      end
+
+      it 'render delete_file' do
+        expect(delete_file).to render_template :delete_file
+      end
+    end
+
+    describe 'Not author of question' do
+      before { login(user) }
+
+      it "can't delete this question" do
+        expect { delete_file }.not_to change(answer.files, :count)
+      end
+
+      it "render delete_file" do
+        expect(delete_file).to render_template :delete_file
+      end
+    end
+  end
 end

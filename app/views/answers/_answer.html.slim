@@ -6,11 +6,11 @@ div id="answer-#{answer.id}" class='answer row mt-3'
       .header class='row card-header bg-primary text-light' Best answer
 
     .body class='card-body'
-      p= answer.body
+      span class='answer-body'
+        = answer.body
 
-      - if answer.files.attached?
-        - answer.files.each do |file|
-          p= link_to file.filename.to_s, url_for(file)
+      span class='answer-files'
+        = render 'answers/answer_files', answer: answer
 
       = form_with model: answer, class: 'hide', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
         p

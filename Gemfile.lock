@@ -133,6 +133,11 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.13.8-x86_64-linux)
       racc (~> 1.4)
+    octicons (17.4.1)
+    octicons_helper (17.4.1)
+      actionview
+      octicons (= 17.4.1)
+      railties
     orm_adapter (0.5.0)
     parallel (1.22.1)
     parser (3.1.2.1)
@@ -307,6 +312,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   listen (~> 3.3)
+  octicons_helper
   pg (~> 1.1)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)

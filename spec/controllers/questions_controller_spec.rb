@@ -165,7 +165,7 @@ RSpec.describe QuestionsController, type: :controller do
     describe 'Author of question' do
       before { login(question.author) }
 
-      it 'deletes his question' do
+      it 'delete this question' do
         expect { delete_question }.to change(Question, :count).by(-1)
       end
 
@@ -183,6 +183,36 @@ RSpec.describe QuestionsController, type: :controller do
 
       it "render show view" do
         expect(delete_question).to render_template :show
+      end
+    end
+  end
+
+  describe 'DELETE #delete_file' do
+    let!(:file) { fixture_file_upload('test_xml.xml', 'text/xml') }
+    let!(:question) { create(:question, files: [file]) }
+    let(:delete_file) { delete :delete_file, params: { id: question, file_id: question.files.last.id }, format: :js }
+
+    describe 'Author of question' do
+      before { login(question.author) }
+
+      it 'delete attached file' do
+        expect { delete_file }.to change(question.files, :count).by(-1)
+      end
+
+      it 'render delete_file' do
+        expect(delete_file).to render_template :delete_file
+      end
+    end
+
+    describe 'Not author of question' do
+      before { login(user) }
+
+      it "can't delete this question" do
+        expect { delete_file }.not_to change(question.files, :count)
+      end
+
+      it "render delete_file" do
+        expect(delete_file).to render_template :delete_file
       end
     end
   end
