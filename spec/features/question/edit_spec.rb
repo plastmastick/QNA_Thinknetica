@@ -22,7 +22,6 @@ feature 'User can edit his question', "
     end
   end
 
-
   describe 'Authenticated user', js: true do
     describe 'edits his' do
       background do

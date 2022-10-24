@@ -13,6 +13,7 @@ AllCops:
     - 'db/**/*'
     - 'views/**/*'
     - 'config/initializers/devise.rb'
+    - 'node_modules/**/**/*'
   TargetRubyVersion: 3.0.0
   SuggestExtensions: false
 
