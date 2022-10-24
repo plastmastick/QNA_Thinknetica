@@ -1,0 +1,11 @@
+- if resource.files.attached?
+  - resource.files.each do |file|
+    p id="file-#{file.id}"
+      = link_to file.filename.to_s, url_for(file)
+      '
+      - if resource.author == current_user
+        = link_to 'Delete',
+                attachments_destroy_path(file_id: file.id, record_id: file.record_id, record_type: file.record_type),
+                method: :delete,
+                remote: true,
+                class: "pointer hide text-danger delete-file"

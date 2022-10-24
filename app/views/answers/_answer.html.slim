@@ -10,7 +10,7 @@ div id="answer-#{answer.id}" class='answer row mt-3'
         = answer.body
 
       span class='answer-files'
-        = render 'answers/answer_files', answer: answer
+        = render 'shared/files_list', resource: answer
 
       = form_with model: answer, class: 'hide', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
         p

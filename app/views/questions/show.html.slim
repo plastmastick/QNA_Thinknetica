@@ -10,7 +10,7 @@
         = @question.body
 
       span class='question-files'
-        = render 'questions/question_files'
+        = render 'shared/files_list', resource: @question
 
       = form_with model: @question, class: 'hide', html: { id: "edit-question" }, local: false do |f|
         p
