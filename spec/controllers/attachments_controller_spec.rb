@@ -5,14 +5,13 @@ require 'rails_helper'
 RSpec.describe AttachmentsController, type: :controller do
   let(:user) { create(:user) }
 
-  describe "GET #destroy" do
+  describe "DELETE #destroy" do
     let!(:file) { fixture_file_upload('test_xml.xml', 'text/xml') }
     let!(:resource) { create(:question, files: [file]) }
     let!(:resource_file) { resource.files.last }
     let(:delete_file) do
       delete :destroy,
-             params: { file_id: resource_file, record_id: resource_file.record_id,
-                       record_type: resource_file.record_type },
+             params: { id: resource_file },
              format: :js
     end
 

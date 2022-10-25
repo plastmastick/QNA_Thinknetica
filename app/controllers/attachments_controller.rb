@@ -1,24 +1,20 @@
 # frozen_string_literal: true
 
 class AttachmentsController < ApplicationController
-  RECORD_TYPE = {
-    "Question" => Question,
-    "Answer" => Answer
-  }.freeze
-
   def destroy
-    set_record
+    set_attachment_and_record
     return unless @record.files.attached? && @record.author == current_user
 
     set_answers_by_best if @record.is_a?(Answer)
-    @record.files.find(params[:file_id]).purge
-    set_record
+    @record.files.find(params[:id]).purge
+    @record.reload
   end
 
   private
 
-  def set_record
-    @record = RECORD_TYPE[params[:record_type]].find(params[:record_id])
+  def set_attachment_and_record
+    @attachment = ActiveStorage::Attachment.find(params[:id])
+    @record = @attachment&.record
   end
 
   def set_answers_by_best

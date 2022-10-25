@@ -5,7 +5,7 @@
       '
       - if resource.author == current_user
         = link_to 'Delete',
-                attachments_destroy_path(file_id: file.id, record_id: file.record_id, record_type: file.record_type),
+                attachment_path(file),
                 method: :delete,
                 remote: true,
                 class: "pointer hide text-danger delete-file"
