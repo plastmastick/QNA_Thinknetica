@@ -93,8 +93,13 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'PATCH #update' do
     let!(:question) { create(:question) }
+    let!(:file) { fixture_file_upload('test_xml.xml', 'text/xml') }
     let(:update_question) do
-      patch :update, params: { id: question, question: { title: 'new title', body: 'new body' }, format: :js }
+      patch :update, params: {
+        id: question,
+        question: { title: 'new title', body: 'new body', files: [file] },
+        format: :js
+      }
       question.reload
     end
 
@@ -110,6 +115,10 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'changes question attributes' do
         expect([question.title, question.body]).to eq ['new title', 'new body']
+      end
+
+      it 'add new files to question' do
+        expect(question.files.count).to eq 2
       end
 
       it 'renders update view' do
@@ -156,7 +165,7 @@ RSpec.describe QuestionsController, type: :controller do
     describe 'Author of question' do
       before { login(question.author) }
 
-      it 'deletes his question' do
+      it 'delete this question' do
         expect { delete_question }.to change(Question, :count).by(-1)
       end
 

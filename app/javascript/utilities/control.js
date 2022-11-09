@@ -7,11 +7,13 @@ $(document).on('turbolinks:load', function(){
         $(this).hide();
         const answerId = $(this).data('answerId');
         $('form#edit-answer-' + answerId).removeClass('hide');
+        $('#answer-' + answerId + ' .delete-file').removeClass('hide');
     })
 
     $('.question').on('click', '.edit-question-link', function(e) {
         e.preventDefault();
         $(this).addClass('hide');
         $('form#edit-question').removeClass('hide');
+        $('.question .delete-file').removeClass('hide');
     })
 });

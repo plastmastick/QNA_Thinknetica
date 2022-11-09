@@ -97,17 +97,23 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     let!(:answer) { create(:answer) }
+    let!(:file) { fixture_file_upload('test_xml.xml', 'text/xml') }
     let(:update_answer) do
-      patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+      patch :update, params: { id: answer, answer: { body: 'new body', files: [file] } }, format: :js
       answer.reload
     end
 
     context 'with valid attributes and current user is author of answer' do
       before { login(answer.author) }
 
-      it 'changes answer attributes' do
+      it 'changes answer body' do
         update_answer
         expect(answer.body).to eq 'new body'
+      end
+
+      it 'add new files to answer' do
+        update_answer
+        expect(answer.files.count).to eq 2
       end
 
       it 'renders update view' do

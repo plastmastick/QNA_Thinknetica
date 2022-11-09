@@ -1,0 +1,5 @@
+<% if @record.is_a?(Answer) %>
+  $('.answers-list').html('<%= j render @answers %>');
+<% elsif @record.is_a?(Question) %>
+  $('.question-files').html('<%= render 'shared/files_list', resource: @record %>')
+<% end %>

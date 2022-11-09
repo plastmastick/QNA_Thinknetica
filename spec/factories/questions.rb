@@ -9,5 +9,13 @@ FactoryBot.define do
     trait :invalid do
       title { nil }
     end
+
+    after(:build) do |post|
+      post.files.attach(
+        io: Rails.root.join("spec/factories/questions.rb").open,
+        filename: 'questions_factory.rb',
+        content_type: 'application/rb'
+      )
+    end
   end
 end

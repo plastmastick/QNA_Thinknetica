@@ -11,16 +11,22 @@ feature 'User can edit his answer', "
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question, author: user) }
 
-  scenario 'Unauthenticated can not edit answer' do
-    visit question_path(question)
+  describe 'Unauthenticated user', js: true do
+    background { visit question_path(question) }
 
-    expect(within('.answers-list')).not_to have_button 'Edit'
+    scenario 'Unauthenticated can not edit answer' do
+      expect(within('.answers-list')).not_to have_button 'Edit'
+    end
+
+    scenario "don't see link for delete file" do
+      within('.answer-files') { expect(page).not_to have_link 'Delete' }
+    end
   end
 
   describe 'Authenticated user' do
     describe 'edits his', js: true do
       background do
-        page.driver.browser.manage.window.resize_to(1920, 1080)
+        page.driver.browser.manage.window.resize_to(3840, 2160)
         sign_in(answer.author)
         visit question_path(question)
         within('.answers-list') { click_on 'Edit' }
@@ -48,6 +54,24 @@ feature 'User can edit his answer', "
           expect(page).to have_selector 'textarea'
           expect(page).to have_content "Answer can't be blank"
         end
+      end
+
+      scenario 'answer with new attached files' do
+        within '.answers-list' do
+          fill_in 'Your answer', with: 'textAnswer'
+          attach_file 'File', [Rails.root.join('spec/rails_helper.rb'), Rails.root.join('spec/spec_helper.rb')]
+          click_on 'Save'
+
+          expect(page).to have_link 'answers_factory.rb'
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
+        end
+      end
+
+      scenario 'answer and delete attached files' do
+        within('.answer-files') { click_link 'Delete' }
+
+        expect(page).not_to have_link 'answers_factory.rb'
       end
     end
 

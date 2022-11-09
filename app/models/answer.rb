@@ -4,6 +4,8 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :author, class_name: "User", inverse_of: :author_answers
 
+  has_many_attached :files
+
   validates :body, presence: true
   validate :validate_best_answers_count
 

@@ -6,14 +6,22 @@ div id="answer-#{answer.id}" class='answer row mt-3'
       .header class='row card-header bg-primary text-light' Best answer
 
     .body class='card-body'
-      p= answer.body
+      span class='answer-body'
+        = answer.body
+
+      span class='answer-files'
+        = render 'shared/files_list', resource: answer
 
       = form_with model: answer, class: 'hide', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
-        = f.label :body, 'Edit answer:'
-        = f.text_area :body,
-                rows: 4,
-                cols: 60,
-                class: "form-control"
+        p
+          = f.label :body, 'Edit answer:'
+          = f.text_area :body,
+                  rows: 4,
+                  cols: 60,
+                  class: "form-control"
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true, direct_upload: true
         = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
 
       .answer-errors

@@ -14,5 +14,13 @@ FactoryBot.define do
     trait :best do
       best { true }
     end
+
+    after(:build) do |post|
+      post.files.attach(
+        io: Rails.root.join("spec/factories/answers.rb").open,
+        filename: 'answers_factory.rb',
+        content_type: 'application/rb'
+      )
+    end
   end
 end
