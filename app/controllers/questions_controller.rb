@@ -11,10 +11,12 @@ class QuestionsController < ApplicationController
   def show
     @answer = Answer.new
     @answers = @question.answers.sort_by_best
+    @answer.links.new
   end
 
   def new
     @question = Question.new
+    @question.links.new # .build
   end
 
   def create
@@ -30,7 +32,7 @@ class QuestionsController < ApplicationController
   def update
     return unless @question.author == current_user
 
-    @question.update(title: question_params[:title], body: question_params[:body])
+    @question.update(question_params)
     @question.files.attach(question_params[:files]) if question_params[:files]
   end
 
@@ -50,6 +52,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body,
+                                     files: [], links_attributes: %i[id name url _destroy])
   end
 end

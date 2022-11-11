@@ -99,7 +99,11 @@ RSpec.describe AnswersController, type: :controller do
     let!(:answer) { create(:answer) }
     let!(:file) { fixture_file_upload('test_xml.xml', 'text/xml') }
     let(:update_answer) do
-      patch :update, params: { id: answer, answer: { body: 'new body', files: [file] } }, format: :js
+      patch :update, params: {
+        id: answer,
+        answer: { body: 'new body', files: [file] },
+        format: :js
+      }
       answer.reload
     end
 

@@ -34,6 +34,10 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:answer)).to be_a_new(Answer)
     end
 
+    it 'assigns new link for answer' do
+      expect(assigns(:answer).links.first).to be_a_new(Link)
+    end
+
     it 'populates an array of all answers of question sort by best desc' do
       expect(assigns(:answers)).to match_array(answers)
     end
@@ -51,6 +55,10 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns a new Question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
+    end
+
+    it 'assigns a @question have a new link' do
+      expect(assigns(:question).links.first).to be_a_new(Link)
     end
 
     it 'renders new view' do
@@ -97,7 +105,9 @@ RSpec.describe QuestionsController, type: :controller do
     let(:update_question) do
       patch :update, params: {
         id: question,
-        question: { title: 'new title', body: 'new body', files: [file] },
+        question: { title: 'new title',
+                    body: 'new body',
+                    files: [file] },
         format: :js
       }
       question.reload
