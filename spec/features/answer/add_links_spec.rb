@@ -37,6 +37,7 @@ feature 'User can add links to answer', "
       within '.answers' do
         expect(page).to have_link 'My gist', href: gist_url
         expect(page).to have_link 'My gist 2', href: gist_url
+        expect(page).to have_content "puts 'Hello, world!"
       end
     end
 
@@ -69,6 +70,7 @@ feature 'User can add links to answer', "
         click_on 'Save'
 
         expect(page).to have_link 'New gist', href: gist_url
+        expect(page).to have_content "puts 'Hello, world!"
       end
     end
 

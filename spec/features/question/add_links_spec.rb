@@ -35,6 +35,7 @@ feature 'User can add links to question', "
     click_on 'Ask'
 
     expect(page).to have_link 'My gist', href: gist_url
+    expect(page).to have_content "puts 'Hello, world!"
   end
 
   describe 'User edit an question', js: true do
@@ -53,6 +54,7 @@ feature 'User can add links to question', "
         click_on 'Save'
 
         expect(page).to have_link 'New gist', href: gist_url
+        expect(page).to have_content "puts 'Hello, world!"
       end
     end
 

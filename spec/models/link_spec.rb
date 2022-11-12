@@ -10,15 +10,33 @@ RSpec.describe Link, type: :model do
 
   describe 'validate url format' do
     it 'with invalid value' do
-      link = described_class.new(name: "InvalidUrl", url: "invalid", linkable: create(:question))
+      invalid_link = described_class.new(name: "InvalidUrl", url: "invalid", linkable: create(:question))
 
-      expect(link).not_to be_valid
+      expect(invalid_link).not_to be_valid
     end
 
     it 'with valid value' do
-      link = described_class.new(name: "ValidUrl", url: "https://habr.com/", linkable: create(:question))
+      new_link = described_class.new(name: "ValidUrl", url: "https://habr.com/", linkable: create(:question))
 
-      expect(link).to be_valid
+      expect(new_link).to be_valid
+    end
+  end
+
+  describe 'gist logic' do
+    let!(:gist_link){
+      create(:link,
+             url: 'https://gist.github.com/vkurennov/743f9367caa1039874af5a2244e1b44c',
+             linkable: create(:question))
+    }
+
+    it 'identification gist link' do
+      expect(gist_link.gist?).to eq(true)
+    end
+
+    it 'identification not gist link' do
+      link = create(:link, url: 'https://www.google.com/', linkable: create(:question))
+
+      expect(link.gist?).to eq(false)
     end
   end
 end

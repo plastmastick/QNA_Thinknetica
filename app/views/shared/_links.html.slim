@@ -3,4 +3,15 @@
     p Links:
     ul
       - resource.links.each do |link|
-        li= link_to link.name, link.url
+        - unless link.gist?
+          li= link_to link.name, link.url
+
+  - unless gists(resource).empty?
+    p Gists:
+    ol
+      - gists(resource).each do |gist|
+        li class='gist-link'
+          = link_to gist.name, gist.url
+          = javascript_include_tag gist.url + ".js"
+
+

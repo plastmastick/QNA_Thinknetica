@@ -5,4 +5,8 @@ $('.new-answer').find('.answer-errors').html('<%= render 'shared/errors', resour
   $('.notice').removeClass('hide');
   $('.answers-list').append('<%= j render @answer %>');
   $('.new-answer #answer_body').val('');
+
+  <% if @answer.links.exists? %>
+    location.reload();
+  <% end %>
 <% end %>

@@ -6,8 +6,11 @@ $('.question-errors').html('<%= render 'shared/errors', resource: @question %>')
   $('.question-title').html('<%= j @question.title %>');
   $('.question-body').html('<%= j @question.body %>');
   $('.question-files').html('<%= render 'shared/files_list', resource: @question %>');
-  $('.question-links').html('<%= render 'shared/links', resource: @question %>');
-
   $('#edit-question').addClass('hide');
   $('.edit-question-link').removeClass('hide');
+
+  <% if @question.links.exists? %>
+    $('.question-links').html('<%= render 'shared/links', resource: @question %>');
+    location.reload();
+  <% end %>
 <% end %>
