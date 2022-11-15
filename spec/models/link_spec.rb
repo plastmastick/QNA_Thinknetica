@@ -23,20 +23,20 @@ RSpec.describe Link, type: :model do
   end
 
   describe 'gist logic' do
-    let!(:gist_link){
+    let!(:gist_link) do
       create(:link,
              url: 'https://gist.github.com/vkurennov/743f9367caa1039874af5a2244e1b44c',
              linkable: create(:question))
-    }
+    end
 
     it 'identification gist link' do
-      expect(gist_link.gist?).to eq(true)
+      expect(gist_link.gist?).to be(true)
     end
 
     it 'identification not gist link' do
       link = create(:link, url: 'https://www.google.com/', linkable: create(:question))
 
-      expect(link.gist?).to eq(false)
+      expect(link.gist?).to be(false)
     end
   end
 end

@@ -14,7 +14,7 @@ feature 'User can edit his answer', "
   describe 'Unauthenticated user', js: true do
     background { visit question_path(question) }
 
-    scenario 'Unauthenticated can not edit answer' do
+    scenario 'can not edit answer' do
       expect(within('.answers-list')).not_to have_button 'Edit'
     end
 

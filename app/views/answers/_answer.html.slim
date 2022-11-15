@@ -26,7 +26,6 @@ div id="answer-#{answer.id}" class='answer row mt-3'
           = f.file_field :files, multiple: true, direct_upload: true
 
         .links
-          p Links:
           = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
         = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
 
