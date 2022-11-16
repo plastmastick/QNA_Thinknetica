@@ -14,6 +14,13 @@
     span class='question-links'
       = render 'shared/links', resource: @question
 
+    - if @question.reward
+      .reward
+        p Reward:
+        b= @question.reward.title
+        p= image_tag(@question.reward.image, size:'200')
+
+
     = form_with model: @question, class: 'hide', html: { id: "edit-question" }, local: false do |f|
       p
         = f.label :title, 'Edit title:'
@@ -34,6 +41,7 @@
         = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
 
       = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
+
 
     .question-errors
       = render 'shared/errors', resource: @question

@@ -1,0 +1,7 @@
+.div class="container mt-3"
+  h2 class="text-center"
+    = t('.header')
+
+  - unless @rewards.empty?
+    .rewards class="row justify-content-center mt-3"
+      = render @rewards

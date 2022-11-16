@@ -161,6 +161,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #best' do
     let!(:answer) { create(:answer) }
+    let!(:reward) { create(:reward, question: answer.question) }
     let(:best_answer) do
       patch :best, params: { id: answer }, format: :js
       answer.reload
@@ -187,6 +188,15 @@ RSpec.describe AnswersController, type: :controller do
       it 'changes answer attributes' do
         best_answer
         expect(answer.best).to be true
+      end
+
+      it 'add new reward to answer author' do
+        expect { best_answer }.to change(answer.author.rewards, :count).by(1)
+      end
+
+      it 'check reward to answer author' do
+        best_answer
+        expect(answer.author.rewards.last).to eq reward
       end
 
       it 'renders update view' do

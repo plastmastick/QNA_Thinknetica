@@ -30,6 +30,7 @@ class AnswersController < ApplicationController
     return unless @question.author == current_user
 
     @answer.mark_as_best
+    @question.reward&.update(owner: @answer.author)
   end
 
   private
