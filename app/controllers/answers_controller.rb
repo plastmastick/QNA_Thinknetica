@@ -22,7 +22,7 @@ class AnswersController < ApplicationController
   def update
     return unless @answer.author == current_user
 
-    @answer.update(body: answer_params[:body])
+    @answer.update(answer_params)
     @answer.files.attach(answer_params[:files]) if answer_params[:files]
   end
 
@@ -30,6 +30,7 @@ class AnswersController < ApplicationController
     return unless @question.author == current_user
 
     @answer.mark_as_best
+    @question.reward&.update(owner: @answer.author)
   end
 
   private
@@ -47,6 +48,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, files: [])
+    params.require(:answer).permit(:body, files: [], links_attributes: %i[id name url _destroy])
   end
 end

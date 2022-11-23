@@ -1,52 +1,5 @@
 .question class='row'
-  .card class='card border-secondary'
-
-    .header class='row card-header flex'
-      h1 class="text-center question-title"
-        = @question.title
-
-    .body class='card-body'
-      span class='question-body'
-        = @question.body
-
-      span class='question-files'
-        = render 'shared/files_list', resource: @question
-
-      = form_with model: @question, class: 'hide', html: { id: "edit-question" }, local: false do |f|
-        p
-          = f.label :title, 'Edit title:'
-          '
-          = f.text_field :title
-        p
-          = f.label :body, 'Edit question:'
-          = f.text_area :body,
-                  rows: 4,
-                  cols: 60,
-                  class: "form-control"
-        p
-          = f.label :files
-          = f.file_field :files, multiple: true, direct_upload: true
-        = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
-
-      .question-errors
-        = render 'shared/errors', resource: @question
-
-    .footer class='row card-footer'
-      .actions class='col-3'
-        - if @question.author == current_user
-          = link_to t('.delete'),
-                  question_path(@question),
-                  :method => :delete,
-                  class: 'btn btn-outline-dark fw-bold me-3',
-                  data: { confirm: t('.confirm') }
-          = link_to 'Edit',
-                  '#',
-                  class: 'ml-1 btn btn-outline-dark fw-bold edit-question-link'
-
-      .author class='col-9 mt-2 text-end'
-        b Author:
-        '
-        = @question.author&.email
+  = render 'questions/question_form'
 
 .answers class='row mt-3'
   h1 class='text-center' Answers
@@ -65,6 +18,19 @@
         p
           = f.label :files
           = f.file_field :files, multiple: true, direct_upload: true
+
+        p Links:
+        p
+          = f.fields_for :links do |l|
+            p
+              = l.label :name, 'Link name'
+              = l.text_field :name
+            p
+              = l.label :url
+              = l.text_field :url
+          .links
+            p Links:
+            = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
 
         .answer-errors
           = render 'shared/errors', resource: @answer

@@ -32,7 +32,7 @@ RSpec.describe AttachmentsController, type: :controller do
         expect { delete_file }.to change(resource.files, :count).by(-1)
       end
 
-      it 'render delete_file' do
+      it 'render destroy' do
         expect(delete_file).to render_template :destroy
       end
     end
@@ -44,7 +44,7 @@ RSpec.describe AttachmentsController, type: :controller do
         expect { delete_file }.not_to change(resource.files, :count)
       end
 
-      it "render delete_file" do
+      it "render destroy" do
         expect(delete_file).to render_template :destroy
       end
     end

@@ -24,7 +24,7 @@ feature 'Author of question can select the best answer', "
       visit question_path(question)
     end
 
-    scenario 'as the author of the question can choose the best answer', js: true do
+    scenario 'as the author of the question, can chooses the best answer' do
       within("#answer-#{answers[1].id}") { click_on 'Best' }
 
       within first(".answer") { expect(page).to have_css "#answer-#{answers[1].id}" }
@@ -33,7 +33,7 @@ feature 'Author of question can select the best answer', "
       within("#answer-#{answers[0].id}") { expect(page).to have_link 'Best' }
     end
 
-    scenario 'as not the author of the question, cannot choose the best answer' do
+    scenario 'as not the author of the question, cannot chooses the best answer' do
       expect(within('.answers-list')).not_to have_button 'Best'
     end
   end

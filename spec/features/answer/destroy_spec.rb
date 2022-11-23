@@ -12,7 +12,7 @@ feature 'User can delete own answer', "
 
   describe 'Authenticated user' do
     scenario 'can delete own answer', js: true do
-      page.driver.browser.manage.window.resize_to(1920, 1080)
+      page.driver.browser.manage.window.resize_to(3840, 2160)
       sign_in(answer.author)
       visit question_path(answer.question)
       within('.answers-list') do

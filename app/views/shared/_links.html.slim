@@ -1,0 +1,33 @@
+- if !resource.nil? && resource.links.exists?
+  .links
+    - if resource.links.count >= gists(resource).count
+      p Links:
+      ul
+        - resource.links.each do |link|
+          - unless link.gist?
+            li
+              = link_to link.name, link.url
+              '
+              - if resource.author == current_user
+                = link_to 'remove link',
+                        link_path(link),
+                        method: :delete,
+                        remote: true,
+                        class: "pointer hide text-danger delete-file"
+
+    - unless gists(resource).empty?
+      p Gists:
+      ol
+        - gists(resource).each do |gist|
+          li class='gist-link'
+            = link_to gist.name, gist.url
+            = javascript_include_tag gist.url + ".js"
+            '
+            - if resource.author == current_user
+              = link_to 'remove gist',
+                      link_path(gist),
+                      method: :delete,
+                      remote: true,
+                      class: "pointer hide text-danger delete-file"
+
+

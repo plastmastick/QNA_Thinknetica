@@ -12,6 +12,8 @@ div id="answer-#{answer.id}" class='answer row mt-3'
       span class='answer-files'
         = render 'shared/files_list', resource: answer
 
+      = render 'shared/links', resource: answer
+
       = form_with model: answer, class: 'hide', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
         p
           = f.label :body, 'Edit answer:'
@@ -22,6 +24,9 @@ div id="answer-#{answer.id}" class='answer row mt-3'
         p
           = f.label :files
           = f.file_field :files, multiple: true, direct_upload: true
+
+        .links
+          = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
         = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
 
       .answer-errors

@@ -14,6 +14,7 @@ en:
       signup: "Sign up"
       login: "Log in"
       welcome: "Welcome,"
+      rewards: "Rewards"
   questions:
     show:
       delete: "Delete"
@@ -22,4 +23,7 @@ en:
     answer:
       delete: "Delete"
       confirm: "Are you sure?"
+  rewards:
+    index:
+      header: "Rewards"
 

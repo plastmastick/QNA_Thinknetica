@@ -4,4 +4,8 @@ $('#answer-' + <%= @answer.id %>).find('.answer-errors').html('<%= render 'share
   $('.notice').html('<%= t('answer.success_edited') %>');
   $('.notice').removeClass('hide');
   $('.answers-list').html('<%= j render @answers %>');
+
+  <% if @answer.links.exists? %>
+    location.reload();
+  <% end %>
 <% end %>

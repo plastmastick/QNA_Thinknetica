@@ -1,0 +1,9 @@
+<% if @resource.links.exists? %>
+  location.reload();
+<% elsif @resource.is_a?(Answer) %>
+  $('.answers-list').html('<%= j render @answers %>');
+<% elsif @resource.is_a?(Question) %>
+  $('.question-links').html('<%= render 'shared/links', resource: @resource %>');
+<% end %>
+
+
