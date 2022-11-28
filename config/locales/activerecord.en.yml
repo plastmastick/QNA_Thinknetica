@@ -19,3 +19,4 @@ en:
     errors:
       messages:
         uniq_best_answer: "A question can only have one best answer"
+        uniq_vote: "can vote only once for each object"

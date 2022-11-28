@@ -36,7 +36,7 @@ RSpec.describe Answer, type: :model do
       create(:vote, votable: resource)
       create(:vote, votable: resource)
 
-      expect(resource.rating).to eq -2
+      expect(resource.rating).to eq(-2)
     end
 
     it 'without votes' do

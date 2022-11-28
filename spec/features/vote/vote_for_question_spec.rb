@@ -35,7 +35,7 @@ feature 'Authenticated user vote the favorite question', "
     scenario 'can upvote' do
       sign_in(user)
       visit question_path(question)
-      within('.question') { find('#upvote').click }
+      within('.question') { find_by_id('upvote').click }
 
       within('.question') { expect(page).to have_content 'Rating: 1' }
     end
@@ -44,7 +44,7 @@ feature 'Authenticated user vote the favorite question', "
       sign_in(user)
       visit question_path(question)
       within('.question') do
-        find('#upvote').click
+        find_by_id('upvote').click
         click_on 'Unvote'
       end
 
@@ -54,7 +54,7 @@ feature 'Authenticated user vote the favorite question', "
     scenario 'can downvote' do
       sign_in(user)
       visit question_path(question)
-      within('.question') { find('#downvote').click }
+      within('.question') { find_by_id('downvote').click }
 
       within('.question') { expect(page).to have_content 'Rating: -1' }
     end
