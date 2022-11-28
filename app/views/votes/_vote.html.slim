@@ -1,0 +1,11 @@
+.votes
+  div id="rating-#{resource.class.name&.downcase}-id-#{resource.id}"= "Rating: #{resource.rating}"
+  - unless current_user.nil? || resource.author == current_user
+    = link_to polymorphic_path(resource, action: :upvote), method: :post, remote: true, id: 'upvote', data: { type: :json } do
+      = octicon 'thumbsup'
+    = ' | '
+    = link_to polymorphic_path(resource, action: :downvote), method: :post, remote: true, id: 'downvote', data: { type: :json } do
+      = octicon 'thumbsdown'
+    = ' | '
+    = link_to 'Unvote', polymorphic_path(resource, action: :unvote), method: :delete, remote: true, data: { type: :json }
+  div id="#{resource.class.name&.downcase}-#{resource.id}-errors"

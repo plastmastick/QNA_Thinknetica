@@ -10,4 +10,10 @@ require("@rails/activestorage").start();
 require("channels");
 require("bootstrap");
 require("@nathanvda/cocoon");
-require("utilities/control");
+
+import $ from "jquery"
+window.$ = $; // to get jQuery
+
+require("utilities/answers");
+require("utilities/questions");
+require("utilities/votes");

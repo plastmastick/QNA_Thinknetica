@@ -199,7 +199,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.author.rewards.last).to eq reward
       end
 
-      it 'renders update view' do
+      it 'renders best view' do
         best_answer
         expect(response).to render_template :best
       end
