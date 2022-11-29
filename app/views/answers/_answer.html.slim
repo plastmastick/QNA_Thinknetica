@@ -54,6 +54,8 @@ div id="answer-#{answer.id}" class='answer row mt-3'
                   class: 'ml-1 btn btn-outline-dark fw-bold',
                   data: { answer_id: answer.id }
 
+        = render 'votes/vote', resource: answer
+
       .author class='col-9 mt-2 text-end'
         b Author:
         '

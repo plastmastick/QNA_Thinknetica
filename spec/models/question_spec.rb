@@ -19,4 +19,18 @@ RSpec.describe Question, type: :model do
   it 'have many attached files' do
     expect(described_class.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
+
+  describe 'return answer rating base on votes' do
+    it 'with votes' do
+      resource = create(:question)
+      create(:vote, votable: resource)
+      create(:vote, votable: resource)
+
+      expect(resource.rating).to eq(-2)
+    end
+
+    it 'without votes' do
+      expect(described_class.new.rating).to eq 0
+    end
+  end
 end
