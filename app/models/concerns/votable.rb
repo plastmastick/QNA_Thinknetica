@@ -8,9 +8,10 @@ module Votable
   end
 
   def rating
-    return 0 unless votes.exists?
+    return 0 unless votes.any?
 
     rating = 0
-    votes.map { |v| rating += v.value }.last
+    votes.each { |v| rating += v.value }
+    rating
   end
 end
