@@ -12,17 +12,14 @@ feature 'User can view questions list', "
   background { visit questions_path }
 
   scenario 'User view questions list' do
-    expect(page).to have_table 'Questions'
-    within_table 'Questions' do
+    within '.questions-list' do
       expect(page).to have_text question.title
-      expect(page).to have_button 'Show'
+      expect(page).to have_link question.title.to_s
     end
   end
 
   scenario 'User view question page' do
-    within_table 'Questions' do
-      click_on 'Show'
-    end
+    click_on question.title.to_s
 
     expect(page).to have_text question.title
     expect(page).to have_text question.body
