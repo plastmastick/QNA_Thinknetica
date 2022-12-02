@@ -39,6 +39,8 @@ class QuestionsController < ApplicationController
 
     @question.update(question_params)
     @question.files.attach(question_params[:files]) if question_params[:files]
+
+    flash[:notice] = t('question.success_edited')
   end
 
   def destroy

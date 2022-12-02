@@ -21,9 +21,7 @@ feature 'User can create answer', "
       fill_in 'Your answer', with: 'textAnswer'
       click_on 'Create'
 
-      within('.flash') do
-        expect(page).to have_content 'Your answer successfully created.'
-      end
+      expect(page).to have_content 'Your answer successfully created.'
       expect(page).to have_content 'textAnswer'
     end
 

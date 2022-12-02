@@ -13,12 +13,14 @@ class AnswersController < ApplicationController
     @answer = @question.answers.build(answer_params)
     @answer.author = current_user
     @answer.save
+    flash[:notice] = t('answer.success_created')
   end
 
   def destroy
     return unless @answer.author == current_user
 
     @answer.destroy
+    flash[:notice] = t('answer.success_deleted')
   end
 
   def update
@@ -26,6 +28,7 @@ class AnswersController < ApplicationController
 
     @answer.update(answer_params)
     @answer.files.attach(answer_params[:files]) if answer_params[:files]
+    flash[:notice] = t('answer.success_edited')
   end
 
   def best
@@ -33,6 +36,7 @@ class AnswersController < ApplicationController
 
     @answer.mark_as_best
     @question.reward&.update(owner: @answer.author)
+    flash[:notice] = t('answer.best_answer_setup')
   end
 
   private

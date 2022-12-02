@@ -42,7 +42,7 @@ feature 'User can edit his answer', "
           expect(page).not_to have_selector 'textarea'
         end
 
-        within('.flash') { expect(page).to have_content 'Your answer successfully edited.' }
+        expect(page).to have_content 'Your answer successfully edited.'
       end
 
       scenario 'answer with errors' do

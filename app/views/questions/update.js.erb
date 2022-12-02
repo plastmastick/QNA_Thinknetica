@@ -1,8 +1,7 @@
 $('.question-errors').html('<%= render 'shared/errors', resource: @question %>');
+$('.flash').html('<%= j render 'shared/flash' %>');
 
 <% unless @question.errors.present? %>
-  $('.notice').html('<%= t('question.success_edited') %>').removeClass('hide');
-
   $('.question-title').html('<%= j @question.title %>');
   $('.question-body').html('<%= j @question.body %>');
   $('.question-files').html('<%= render 'shared/files_list', resource: @question %>');

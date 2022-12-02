@@ -25,6 +25,7 @@ feature 'User can edit his question', "
   describe 'Authenticated user', js: true do
     describe 'edits his' do
       background do
+        page.driver.browser.manage.window.resize_to(3840, 2160)
         sign_in(question.author)
         visit question_path(question)
         within('.question') { click_on 'Edit' }
@@ -42,9 +43,7 @@ feature 'User can edit his question', "
           expect(page).not_to have_selector 'textarea'
         end
 
-        within('.flash') do
-          expect(page).to have_content 'Your question successfully edited.'
-        end
+        expect(page).to have_content 'Your question successfully edited.'
       end
 
       scenario 'question with errors' do
