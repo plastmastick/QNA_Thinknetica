@@ -7,7 +7,6 @@ require("jquery");
 require("@rails/ujs").start();
 require("turbolinks").start();
 require("@rails/activestorage").start();
-require("channels");
 require("bootstrap");
 require("@nathanvda/cocoon");
 
@@ -17,3 +16,4 @@ window.$ = $; // to get jQuery
 require("utilities/answers");
 require("utilities/questions");
 require("utilities/votes");
+require("channels");

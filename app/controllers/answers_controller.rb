@@ -12,8 +12,10 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
     @answer = @question.answers.build(answer_params)
     @answer.author = current_user
+
     @answer.save
     flash[:notice] = t('answer.success_created')
+    publish_answer
   end
 
   def destroy
@@ -55,5 +57,22 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body, files: [], links_attributes: %i[id name url _destroy])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    rendered = ApplicationController.render(
+      partial: 'answers/answer',
+      locals: { answer: @answer, current_user: current_user }
+    )
+
+    ActionCable.server.broadcast "questions/#{@question.id}/answers",
+                                 {
+                                   answer: @answer,
+                                   question_author_id: @question.author.id,
+                                   rendered: rendered
+                                 }
+
   end
 end

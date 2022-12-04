@@ -13,6 +13,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    gon.question_id = @question.id
     @answer = Answer.new
     @answers = @question.answers.sort_by_best
     @answer.links.new
