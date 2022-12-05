@@ -40,7 +40,8 @@ feature 'User can edit his question', "
           expect(page).not_to have_content question.body
           expect(page).to have_content 'edited title'
           expect(page).to have_content 'edited question'
-          expect(page).not_to have_selector 'textarea'
+
+          expect(page).not_to have_css '#edit-question'
         end
 
         expect(page).to have_content 'Your question successfully edited.'

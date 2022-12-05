@@ -18,7 +18,7 @@ feature 'Author of question can select the best answer', "
 
   describe 'Authenticated user', js: true do
     background do
-      page.driver.browser.manage.window.resize_to(3840, 2160)
+      page.driver.browser.manage.window.resize_to(2000, 3000)
       sign_in(question.author)
       answers[0].update(best: true)
       visit question_path(question)

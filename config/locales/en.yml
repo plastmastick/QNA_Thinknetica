@@ -16,7 +16,7 @@ en:
       welcome: "Welcome,"
       rewards: "Rewards"
   questions:
-    show:
+    actions:
       delete: "Delete"
       confirm: "Are you sure?"
   answers:

@@ -1,9 +1,9 @@
 import consumer from "./consumer"
 import { AnswerTemplates } from '../templates/answer_templates'
 
-consumer.subscriptions.create({ channel: "AnswersChannel", question_id: gon.question_id }, {
+consumer.subscriptions.create({ channel: "AnswersChannel", question_id: gon.question_id || null }, {
   connected() {
-    this.perform('follow')
+      this.perform('follow')
   },
 
   received(data) {

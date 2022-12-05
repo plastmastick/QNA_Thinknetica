@@ -21,5 +21,11 @@ class User < ApplicationRecord
            dependent: :nullify,
            inverse_of: :author
 
+  has_many :author_comments,
+           class_name: "Comment",
+           foreign_key: :author_id,
+           dependent: :nullify,
+           inverse_of: :author
+
   has_many :rewards, foreign_key: :owner_id, dependent: :nullify, inverse_of: :owner
 end

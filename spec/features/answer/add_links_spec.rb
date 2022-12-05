@@ -13,13 +13,13 @@ feature 'User can add links to answer', "
   given(:gist_url) { 'https://gist.github.com/vkurennov/743f9367caa1039874af5a2244e1b44c' }
 
   background do
-    page.driver.browser.manage.window.resize_to(3840, 2160)
+    page.driver.browser.manage.window.resize_to(2000, 3000)
     sign_in(user)
     visit question_path(question)
   end
 
-  describe 'User create answer' do
-    scenario 'and adds many valid links', js: true do
+  describe 'User create answer', js: true do
+    scenario 'and adds many valid links' do
       fill_in 'Your answer', with: 'My answer'
 
       fill_in 'Link name', with: 'My gist'
@@ -41,7 +41,7 @@ feature 'User can add links to answer', "
       end
     end
 
-    scenario 'and adds invalid links', js: true do
+    scenario 'and adds invalid links' do
       fill_in 'Link name', with: 'Invalid url'
       fill_in 'Url', with: 'invalid'
 

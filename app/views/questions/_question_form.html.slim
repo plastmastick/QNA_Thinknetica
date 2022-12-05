@@ -1,66 +1,69 @@
-.card class='card border-secondary'
+.question id="question-#{@question.id}" class='row'
+  .card class='card border-secondary'
 
-  .header class='row card-header flex'
-    h1 class="text-center question-title"
-      = @question.title
+    .header class='row card-header flex'
+      h1 class="text-center question-title"
+        = @question.title
 
-  .body class='card-body'
-    span class='question-body'
-      = @question.body
+    .body class='card-body'
+      span class='question-body'
+        = @question.body
 
-    span class='question-files'
-      = render 'shared/files_list', resource: @question
+      span class='question-files'
+        = render 'shared/files_list', resource: @question, current_user: current_user
 
-    span class='question-links'
-      = render 'shared/links', resource: @question
+      span class='question-links'
+        = render 'shared/links', resource: @question, current_user: current_user
 
-    - if @question.reward
-      .reward
-        p Reward:
-        b= @question.reward.title
-        p= image_tag(@question.reward.image, size:'200')
+      - if @question.reward
+        .reward
+          p Reward:
+          b= @question.reward.title
+          p= image_tag(@question.reward.image, size: '200')
 
 
-    = form_with model: @question, class: 'hide', html: { id: "edit-question" }, local: false do |f|
-      p
-        = f.label :title, 'Edit title:'
+      = form_with model: @question, class: 'hide', html: { id: "edit-question" }, local: false do |f|
+        p
+          = f.label :title, 'Edit title:'
+          '
+          = f.text_field :title
+        p
+          = f.label :body, 'Edit question:'
+          = f.text_area :body,
+                  rows: 4,
+                  cols: 60,
+                  class: "form-control"
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true, direct_upload: true
+
+        .links
+          p Links:
+          = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
+
+        = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
+
+
+      .question-errors
+        = render 'shared/errors', resource: @question
+
+      = render 'comments/comments_block', commentable: @question, current_user: current_user
+
+    .footer class='row card-footer'
+      .actions class='col-3'
+        - if @question.author == current_user
+          = link_to t('questions.actions.delete'),
+                  question_path(@question),
+                  :method => :delete,
+                  class: 'btn btn-outline-dark fw-bold me-3',
+                  data: { confirm: t('questions.actions.confirm') }
+          = link_to 'Edit',
+                  '#',
+                  class: 'ml-1 btn btn-outline-dark fw-bold edit-question-link'
+
+        = render 'votes/vote', resource: @question
+
+      .author class='col-9 mt-2 text-end'
+        b Author:
         '
-        = f.text_field :title
-      p
-        = f.label :body, 'Edit question:'
-        = f.text_area :body,
-                rows: 4,
-                cols: 60,
-                class: "form-control"
-      p
-        = f.label :files
-        = f.file_field :files, multiple: true, direct_upload: true
-
-      .links
-        p Links:
-        = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
-
-      = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
-
-
-    .question-errors
-      = render 'shared/errors', resource: @question
-
-  .footer class='row card-footer'
-    .actions class='col-3'
-      - if @question.author == current_user
-        = link_to t('.delete'),
-                question_path(@question),
-                :method => :delete,
-                class: 'btn btn-outline-dark fw-bold me-3',
-                data: { confirm: t('.confirm') }
-        = link_to 'Edit',
-                '#',
-                class: 'ml-1 btn btn-outline-dark fw-bold edit-question-link'
-
-      = render 'votes/vote', resource: @question
-
-    .author class='col-9 mt-2 text-end'
-      b Author:
-      '
-      = @question.author&.email
+        = @question.author&.email

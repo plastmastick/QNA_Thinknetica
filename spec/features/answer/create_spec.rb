@@ -12,7 +12,7 @@ feature 'User can create answer', "
 
   describe 'Authenticated user', js: true do
     background do
-      page.driver.browser.manage.window.resize_to(1920, 1080)
+      page.driver.browser.manage.window.resize_to(3840, 2160)
       sign_in(user)
       visit question_path(question)
     end
@@ -44,6 +44,7 @@ feature 'User can create answer', "
   describe 'multiple sessions', js: true do
     scenario "answer appears on other user's page" do
       Capybara.using_session('user') do
+        page.driver.browser.manage.window.resize_to(3840, 2160)
         sign_in(user)
         visit question_path(question)
       end
