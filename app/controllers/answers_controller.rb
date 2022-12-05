@@ -63,17 +63,14 @@ class AnswersController < ApplicationController
   def publish_answer
     return if @answer.errors.any?
 
-    rendered = ApplicationController.render(
-      partial: 'answers/answer',
-      locals: { answer: @answer, current_user: current_user }
-    )
-
     ActionCable.server.broadcast "questions/#{@question.id}/answers",
                                  {
                                    answer: @answer,
                                    question_author_id: @question.author.id,
-                                   rendered: rendered
+                                   rendered: ApplicationController.render(
+                                     partial: 'answers/answer',
+                                     locals: { answer: @answer, current_user: current_user }
+                                   )
                                  }
-
   end
 end

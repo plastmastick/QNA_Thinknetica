@@ -1,21 +1,22 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can comment a question', %q{
+feature 'User can comment a question', "
   In order to express some thoughts
   As an authenticated user
   I'd like to be able to comment a question
-} do
+" do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
   scenario 'Unauthenticated user tries to comment the question' do
     visit question_path(question)
 
-    expect(page).to_not have_css('.question-new-comment')
+    expect(page).not_to have_css('.question-new-comment')
   end
 
   describe "js: true", js: true do
-
     background { page.driver.browser.manage.window.resize_to(3840, 2160) }
 
     describe 'Authenticated user' do

@@ -43,7 +43,6 @@ feature 'User can create question', "
   end
 
   describe 'multiple sessions', js: true do
-
     scenario "question appears on other user's page" do
       Capybara.using_session('user') do
         page.driver.browser.manage.window.resize_to(3840, 2160)

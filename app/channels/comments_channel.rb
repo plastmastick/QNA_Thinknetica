@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CommentsChannel < ApplicationCable::Channel
   def subscribed
     reject if params['question_id'].blank?

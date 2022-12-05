@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can comment an answer', %q{
+feature 'User can comment an answer', "
   In order to express some thoughts
   As an authenticated user
   I'd like to be able to comment an answer
-} do
+" do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question) }
 
   scenario 'Unauthenticated user tries to comment the answer' do
     visit question_path(question)
-    expect(page).to_not have_css('.answer-new-comment')
+    expect(page).not_to have_css('.answer-new-comment')
   end
 
   describe "js: true", js: true do
