@@ -1,3 +1,2 @@
-$('.notice').html('<%= t('answer.best_answer_setup') %>');
-$('.notice').removeClass('hide');
+$('.flash').html('<%= j render 'shared/flash' %>');
 $('.answers-list').html('<%= j render @answers %>');

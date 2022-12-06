@@ -1,3 +1,5 @@
+= include_gon
+
 doctype html
 html
   head
@@ -5,6 +7,7 @@ html
     meta name="viewport" content="width=device-width,initial-scale=1"
     = csrf_meta_tags
     = csp_meta_tag
+    = action_cable_meta_tag
 
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
@@ -13,10 +16,7 @@ html
     = render 'shared/nav'
 
     div class="container mt-3 justify-content-center" style="margin-bottom: 150px;"
-      .flash
-        div class='notice alert alert-success text-dark hide' = notice
-        div class='alert alert-danger text-dark hide' = alert
-
+      = render 'shared/flash'
       = yield
 
     = render 'shared/footer'

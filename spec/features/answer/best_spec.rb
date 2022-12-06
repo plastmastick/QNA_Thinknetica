@@ -18,7 +18,7 @@ feature 'Author of question can select the best answer', "
 
   describe 'Authenticated user', js: true do
     background do
-      page.driver.browser.manage.window.resize_to(3840, 2160)
+      page.driver.browser.manage.window.resize_to(2000, 3000)
       sign_in(question.author)
       answers[0].update(best: true)
       visit question_path(question)
@@ -28,7 +28,7 @@ feature 'Author of question can select the best answer', "
       within("#answer-#{answers[1].id}") { click_on 'Best' }
 
       within first(".answer") { expect(page).to have_css "#answer-#{answers[1].id}" }
-      within('.flash') { expect(page).to have_content 'Answer successfully mark as the best.' }
+      expect(page).to have_content 'Answer successfully mark as the best.'
       within("#answer-#{answers[1].id}") { expect(page).not_to have_link 'Best' }
       within("#answer-#{answers[0].id}") { expect(page).to have_link 'Best' }
     end

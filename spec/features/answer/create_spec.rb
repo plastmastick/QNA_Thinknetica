@@ -12,7 +12,7 @@ feature 'User can create answer', "
 
   describe 'Authenticated user', js: true do
     background do
-      page.driver.browser.manage.window.resize_to(1920, 1080)
+      page.driver.browser.manage.window.resize_to(3840, 2160)
       sign_in(user)
       visit question_path(question)
     end
@@ -21,9 +21,7 @@ feature 'User can create answer', "
       fill_in 'Your answer', with: 'textAnswer'
       click_on 'Create'
 
-      within('.flash') do
-        expect(page).to have_content 'Your answer successfully created.'
-      end
+      expect(page).to have_content 'Your answer successfully created.'
       expect(page).to have_content 'textAnswer'
     end
 
@@ -40,6 +38,31 @@ feature 'User can create answer', "
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+  end
+
+  describe 'multiple sessions', js: true do
+    scenario "answer appears on other user's page" do
+      Capybara.using_session('user') do
+        page.driver.browser.manage.window.resize_to(3840, 2160)
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('other user') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Your answer', with: 'Answer body'
+        click_on 'Create'
+
+        expect(page).to have_content 'Answer body'
+      end
+
+      Capybara.using_session('other user') do
+        expect(page).to have_content 'Answer body'
+      end
     end
   end
 

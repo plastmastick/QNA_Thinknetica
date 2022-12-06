@@ -1,5 +1,4 @@
-tr
-  td = question.title
-  td = button_to 'Show',
-          question_path(question),
-          method: :get
+div
+  p class="h4"= link_to question.title, question_path(question)
+  = question.body
+br

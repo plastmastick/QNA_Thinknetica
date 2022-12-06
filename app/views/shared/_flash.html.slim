@@ -1,0 +1,6 @@
+.flash
+  - if flash[:notice]
+    div class='notice alert alert-success text-dark ' = notice
+
+  - if flash[:alert]
+    div class='alert alert-danger text-dark' = alert

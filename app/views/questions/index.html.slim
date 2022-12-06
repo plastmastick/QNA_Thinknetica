@@ -2,9 +2,5 @@ p= button_to 'Ask question',
         new_question_path,
         method: :get
 
-table id='Questions'
-  thead
-    tr
-      th Title
-  tbody
-    = render @questions
+.questions-list
+  = render @questions

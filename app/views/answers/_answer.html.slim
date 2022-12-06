@@ -10,9 +10,9 @@ div id="answer-#{answer.id}" class='answer row mt-3'
         = answer.body
 
       span class='answer-files'
-        = render 'shared/files_list', resource: answer
+        = render 'shared/files_list', resource: answer, current_user: current_user
 
-      = render 'shared/links', resource: answer
+      = render 'shared/links', resource: answer, current_user: current_user
 
       = form_with model: answer, class: 'hide', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
         p
@@ -31,6 +31,8 @@ div id="answer-#{answer.id}" class='answer row mt-3'
 
       .answer-errors
         = render 'shared/errors', resource: answer
+
+      = render 'comments/comments_block', commentable: answer, current_user: current_user
 
     .footer class='row card-footer'
       .actions class='col-3'
@@ -54,7 +56,7 @@ div id="answer-#{answer.id}" class='answer row mt-3'
                   class: 'ml-1 btn btn-outline-dark fw-bold',
                   data: { answer_id: answer.id }
 
-        = render 'votes/vote', resource: answer
+      = render 'votes/vote', resource: answer, current_user: current_user
 
       .author class='col-9 mt-2 text-end'
         b Author:

@@ -33,16 +33,16 @@ feature 'User can edit his answer', "
       end
 
       scenario 'answer' do
-        within '.answers-list' do
+        within "#answer-#{answer.id}" do
           fill_in 'Your answer', with: 'edited answer'
           click_on 'Save'
 
           expect(page).not_to have_content answer.body
           expect(page).to have_content 'edited answer'
-          expect(page).not_to have_selector 'textarea'
+          expect(page).not_to have_css "#edit-answer-#{answer.id}"
         end
 
-        within('.flash') { expect(page).to have_content 'Your answer successfully edited.' }
+        expect(page).to have_content 'Your answer successfully edited.'
       end
 
       scenario 'answer with errors' do

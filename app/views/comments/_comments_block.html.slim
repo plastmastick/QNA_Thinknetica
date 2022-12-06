@@ -1,0 +1,6 @@
+.comments class="card mb-4 card-body"
+  h6= 'Comments'
+  .comments-list
+    = render commentable.comments
+  - if current_user
+    = render 'comments/comment_form', resource: commentable
