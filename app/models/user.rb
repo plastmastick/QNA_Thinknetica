@@ -7,7 +7,8 @@ class User < ApplicationRecord
          :registerable,
          :recoverable,
          :rememberable,
-         :validatable
+         :validatable,
+         :omniauthable, omniauth_providers: [:github]
 
   has_many :author_questions,
            class_name: "Question",
@@ -28,4 +29,9 @@ class User < ApplicationRecord
            inverse_of: :author
 
   has_many :rewards, foreign_key: :owner_id, dependent: :nullify, inverse_of: :owner
+  has_many :authorisations, dependent: :destroy
+
+  def self.find_for_oauth(auth)
+    FindForOauthService.new(auth).call
+  end
 end

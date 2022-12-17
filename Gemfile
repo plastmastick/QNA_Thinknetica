@@ -14,6 +14,12 @@ gem 'gon'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails'
 gem 'octicons_helper'
+
+# authentication (oauth)
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-rails_csrf_protection'
+
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 6.1.5'

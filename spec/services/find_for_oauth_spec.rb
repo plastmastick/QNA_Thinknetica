@@ -3,9 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe FindForOauthService do
+  subject { described_class.new(auth) }
+
   let!(:user) { create(:user) }
   let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '123') }
-  subject { FindForOauthService.new(auth) }
 
   context 'user has been authorized already' do
     it 'returns the user' do
@@ -16,14 +17,14 @@ RSpec.describe FindForOauthService do
 
   context 'user has not been authoried yet' do
     context 'user already exists' do
-      let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '123', info: {email: user.email}) }
+      let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '123', info: { email: user.email }) }
 
       it 'does not create new user' do
-        expect{ subject.call }.to_not change(User, :count)
+        expect { subject.call }.not_to change(User, :count)
       end
 
       it 'creates authorisation for user' do
-        expect{ subject.call }.to change(user.authorisations, :count).by(1)
+        expect { subject.call }.to change(user.authorisations, :count).by(1)
       end
 
       it 'creates authorisation with provider and uid' do
@@ -39,10 +40,10 @@ RSpec.describe FindForOauthService do
     end
 
     context 'user does not exist' do
-      let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '123', info: {email: 'example@email.com'}) }
+      let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '123', info: { email: 'example@email.com' }) }
 
       it 'creates new user' do
-        expect{ subject.call }.to change(User, :count).by(1)
+        expect { subject.call }.to change(User, :count).by(1)
       end
 
       it 'returns new user' do
@@ -56,7 +57,7 @@ RSpec.describe FindForOauthService do
 
       it 'creates an authorisation for user' do
         user = subject.call
-        expect(user.authorisations).to_not be_empty
+        expect(user.authorisations).not_to be_empty
       end
 
       it 'creates authorisation with provider and uid' do
