@@ -8,7 +8,9 @@ class User < ApplicationRecord
          :recoverable,
          :rememberable,
          :validatable,
-         :omniauthable, omniauth_providers: [:github]
+         :omniauthable,
+         :confirmable,
+         omniauth_providers: %i[github vkontakte twitter]
 
   has_many :author_questions,
            class_name: "Question",
@@ -33,5 +35,16 @@ class User < ApplicationRecord
 
   def self.find_for_oauth(auth)
     FindForOauthService.new(auth).call
+  end
+
+  def self.find_by_authorisation(provider, uid)
+    joins(:authorisations).where(authorisations: { provider: provider, uid: uid }).first
+  end
+
+  def self.build_twitter_auth_cookie_hash(data)
+    {
+      provider: data.provider, uid: data.uid.to_i,
+      access_token: data.credentials.token, access_secret: data.credentials.secret
+    }
   end
 end

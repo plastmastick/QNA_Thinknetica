@@ -8,10 +8,10 @@ class FindForOauthService
   end
 
   def call
-    authorisation = Authorisation.where(provider: auth.provider, uid: auth.uid.to_s).first
+    authorisation = Authorisation.where(provider: auth[:provider], uid: auth[:uid].to_s).first
     return authorisation.user if authorisation
 
-    email = auth.info[:email]
+    email = auth[:info][:email]
     user = User.find_by(email: email)
     if user
     else
@@ -25,6 +25,6 @@ class FindForOauthService
   private
 
   def create_authorisation(user, auth)
-    user.authorisations.create(provider: auth.provider, uid: auth.uid)
+    user.authorisations.create!(provider: auth[:provider], uid: auth[:uid])
   end
 end

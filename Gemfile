@@ -19,6 +19,8 @@ gem 'octicons_helper'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-twitter'
+gem 'omniauth-vkontakte'
 
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
@@ -56,6 +58,7 @@ group :test do
   gem 'capybara', '>= 3.26'
   gem 'selenium-webdriver', '>= 4.0.0.rc1'
   # Easy installation and use of web drivers to run system tests with browsers
+  gem 'capybara-email'
   gem 'launchy'
   gem 'webdrivers'
 end

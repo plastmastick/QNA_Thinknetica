@@ -6,4 +6,9 @@ FactoryBot.define do
     provider { "MyString" }
     uid { "MyString" }
   end
+
+  trait :for_twitter do
+    provider { 'twitter' }
+    uid { '12345' }
+  end
 end
