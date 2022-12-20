@@ -37,6 +37,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
+  config.include OmniauthMacros
 
   Capybara.javascript_driver = :selenium_chrome_headless
 
@@ -77,6 +78,8 @@ RSpec.configure do |config|
     FileUtils.rm_rf(Rails.root.join('tmp/storage'))
   end
 end
+
+OmniAuth.config.test_mode = true
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
