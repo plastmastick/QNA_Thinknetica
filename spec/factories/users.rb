@@ -6,5 +6,7 @@ FactoryBot.define do
 
     password { '1234567890' }
     password_confirmation { '1234567890' }
+
+    before(:create, &:skip_confirmation!)
   end
 end
