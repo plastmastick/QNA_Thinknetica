@@ -9,6 +9,8 @@ class AnswersController < ApplicationController
   before_action :set_question, only: %i[destroy update best]
   before_action :set_answers_by_best, only: %i[destroy update best]
 
+  authorize_resource
+
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.build(answer_params)
@@ -20,23 +22,17 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    return unless @answer.author == current_user
-
     @answer.destroy
     flash[:notice] = t('answer.success_deleted')
   end
 
   def update
-    return unless @answer.author == current_user
-
     @answer.update(answer_params)
     @answer.files.attach(answer_params[:files]) if answer_params[:files]
     flash[:notice] = t('answer.success_edited')
   end
 
   def best
-    return unless @question.author == current_user
-
     @answer.mark_as_best
     @question.reward&.update(owner: @answer.author)
     flash[:notice] = t('answer.best_answer_setup')
@@ -67,9 +63,9 @@ class AnswersController < ApplicationController
                                  {
                                    answer: @answer,
                                    question_author_id: @question.author.id,
-                                   rendered: ApplicationController.render(
+                                   rendered: renderer.render(
                                      partial: 'answers/answer',
-                                     locals: { answer: @answer, current_user: current_user }
+                                     locals: { answer: @answer }
                                    )
                                  }
   end

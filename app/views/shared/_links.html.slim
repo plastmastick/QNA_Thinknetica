@@ -8,7 +8,7 @@
             li
               = link_to link.name, link.url
               '
-              - if resource.author == current_user
+              - if can? :destroy, resource
                 = link_to 'remove link',
                         link_path(link),
                         method: :delete,

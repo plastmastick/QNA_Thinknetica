@@ -51,12 +51,14 @@
 
     .footer class='row card-footer'
       .actions class='col-3'
-        - if @question.author == current_user
+        - if can? :destroy, @question
           = link_to t('questions.actions.delete'),
                   question_path(@question),
                   :method => :delete,
                   class: 'btn btn-outline-dark fw-bold me-3',
                   data: { confirm: t('questions.actions.confirm') }
+
+        - if can? :edit, @question
           = link_to 'Edit',
                   '#',
                   class: 'ml-1 btn btn-outline-dark fw-bold edit-question-link'

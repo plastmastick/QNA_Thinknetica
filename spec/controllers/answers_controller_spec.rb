@@ -6,13 +6,13 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer) }
   let(:user) { create(:user) }
 
+  before { login(user) }
+
   describe 'POST #create' do
     let!(:answer) { create(:answer) }
     let(:create_answer) do
       post :create, params: { question_id: answer.question, answer: attributes_for(:answer), format: :js }
     end
-
-    before { login(user) }
 
     describe 'check answer attributes' do
       before { create_answer }
@@ -82,16 +82,8 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context "when current user isn't author of answer" do
-      before { login(user) }
-
-      it "doesn't delete answer from database" do
-        expect { destroy_answer }.not_to change(Question, :count)
-      end
-
-      it 'render destroy view' do
-        expect(destroy_answer).to render_template :destroy
-      end
+    it "not author of question can't delete" do
+      expect { destroy_answer }.not_to change(Question, :count)
     end
   end
 
@@ -144,18 +136,9 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context "when current user isn't author of answer" do
-      before { login(user) }
-
-      it "can't update answer in database" do
-        update_answer
-        expect(answer.body).to eq "MyText"
-      end
-
-      it 'renders update view' do
-        update_answer
-        expect(response).to render_template :update
-      end
+    it "not author of question can't update" do
+      update_answer
+      expect(answer.body).to eq "MyText"
     end
   end
 
@@ -182,7 +165,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context 'when current user is author of question of answer' do
+    context 'when current user is author of question' do
       before { login(answer.question.author) }
 
       it 'changes answer attributes' do
@@ -205,17 +188,8 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context "when current user isn't author of question of answer" do
-      before { login(user) }
-
-      it "can't update answer in database" do
-        expect { best_answer }.to not_change(answer, :best)
-      end
-
-      it 'renders best view' do
-        best_answer
-        expect(response).to render_template :best
-      end
+    it "not author of question can't select the best" do
+      expect { best_answer }.to not_change(answer, :best)
     end
   end
 end

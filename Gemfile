@@ -16,6 +16,7 @@ gem 'jquery-rails'
 gem 'octicons_helper'
 
 # authentication (oauth)
+gem 'cancancan'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'

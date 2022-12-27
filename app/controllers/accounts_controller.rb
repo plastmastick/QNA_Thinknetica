@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AccountsController < ApplicationController
+  skip_authorization_check
   def create
     user = User.find_for_oauth(user_data)
 
