@@ -83,7 +83,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it "not author of question can't delete" do
-        expect { destroy_answer }.not_to change(Question, :count)
+      expect { destroy_answer }.not_to change(Question, :count)
     end
   end
 
@@ -137,8 +137,8 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it "not author of question can't update" do
-        update_answer
-        expect(answer.body).to eq "MyText"
+      update_answer
+      expect(answer.body).to eq "MyText"
     end
   end
 
@@ -189,7 +189,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it "not author of question can't select the best" do
-        expect { best_answer }.to not_change(answer, :best)
+      expect { best_answer }.to not_change(answer, :best)
     end
   end
 end
