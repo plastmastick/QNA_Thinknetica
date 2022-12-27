@@ -7,6 +7,8 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_question, only: %i[show update destroy]
 
+  authorize_resource
+
   after_action :publish_question, only: [:create]
 
   def index
@@ -37,8 +39,6 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    return unless @question.author == current_user
-
     @question.update(question_params)
     @question.files.attach(question_params[:files]) if question_params[:files]
 
@@ -46,12 +46,8 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if @question.author == current_user
-      @question.destroy
-      redirect_to questions_path, notice: t('question.success_deleted')
-    else
-      render :show
-    end
+    @question.destroy
+    redirect_to questions_path, notice: t('question.success_deleted')
   end
 
   private

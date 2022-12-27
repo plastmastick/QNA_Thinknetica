@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
   let(:user) { create(:user) }
+  before { login(user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
@@ -48,10 +49,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    before do
-      login(user)
-      get :new
-    end
+    before { get :new }
 
     it 'assigns a new Question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
@@ -72,8 +70,6 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'POST #create' do
     let(:create_question) { post :create, params: { question: attributes_for(:question) } }
-
-    before { login(user) }
 
     it 'question author is current user' do
       create_question
@@ -158,17 +154,8 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    context "when current user isn't author of question" do
-      before { login(user) }
-
-      it "can't update question in database" do
-        expect { update_question }.to not_change(question, :title).and not_change(question, :body)
-      end
-
-      it 'renders update view' do
-        update_question
-        expect(response).to render_template :update
-      end
+    it "not author of question can't update" do
+      expect { update_question }.to not_change(question, :title).and not_change(question, :body)
     end
   end
 
@@ -188,16 +175,8 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    describe 'Not author of question' do
-      before { login(user) }
-
-      it "can't delete this question" do
-        expect { delete_question }.not_to change(Question, :count)
-      end
-
-      it "render show view" do
-        expect(delete_question).to render_template :show
-      end
+    it "not author of question can't delete" do
+      expect { delete_question }.not_to change(Question, :count)
     end
   end
 end

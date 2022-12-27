@@ -10,9 +10,9 @@ div id="answer-#{answer.id}" class='answer row mt-3'
         = answer.body
 
       span class='answer-files'
-        = render 'shared/files_list', resource: answer, current_user: current_user
+        = render 'shared/files_list', resource: answer
 
-      = render 'shared/links', resource: answer, current_user: current_user
+      = render 'shared/links', resource: answer
 
       = form_with model: answer, class: 'hide', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
         p
@@ -32,23 +32,25 @@ div id="answer-#{answer.id}" class='answer row mt-3'
       .answer-errors
         = render 'shared/errors', resource: answer
 
-      = render 'comments/comments_block', commentable: answer, current_user: current_user
+      = render 'comments/comments_block', commentable: answer
 
     .footer class='row card-footer'
       .actions class='col-3'
-        - if answer.author == current_user
+        - if can? :destroy, answer
           = link_to t('.delete'),
                   answer_path(answer),
                   method: :delete,
                   remote: true,
                   class: 'btn btn-outline-dark fw-bold me-3',
                   data: { confirm: t('.confirm') }
+
+        - if can? :edit, answer
           = link_to 'Edit',
                   '#',
                   class: 'ml-1 btn btn-outline-dark fw-bold me-3 edit-answer-link',
                   data: { answer_id: answer.id }
 
-        - if answer.question.author == current_user && !answer.best
+        - if (can? :best, answer) && !answer.best
           = link_to 'Best',
                   best_answer_path(answer),
                   method: :patch,
@@ -56,7 +58,7 @@ div id="answer-#{answer.id}" class='answer row mt-3'
                   class: 'ml-1 btn btn-outline-dark fw-bold',
                   data: { answer_id: answer.id }
 
-      = render 'votes/vote', resource: answer, current_user: current_user
+      = render 'votes/vote', resource: answer
 
       .author class='col-9 mt-2 text-end'
         b Author:

@@ -23,8 +23,10 @@ class Ability
     guest_abilities
     can %i[update destroy], [Answer, Question, Comment], author_id: user.id
     can %i[create create_comment], [Answer, Question]
-    can :update_best_answer, Question, author_id: user.id
-    can [:upvote, :downvote, :cancel], [Answer, Question] do |votable|
+    can :best, Answer do |answer|
+      answer.question.author.id == user.id
+    end
+    can [:upvote, :downvote, :unvote], [Answer, Question] do |votable|
       votable.author_id != user.id
     end
   end

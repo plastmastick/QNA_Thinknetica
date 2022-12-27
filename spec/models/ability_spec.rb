@@ -26,24 +26,26 @@ RSpec.describe Ability, type: :model do
       it { is_expected.to be_able_to :create, Answer }
       it { is_expected.to be_able_to :create_comment, Answer }
       it { is_expected.to be_able_to %i[update destroy], create(:answer, author: user) }
+      it { is_expected.to be_able_to :best, create(:answer, question: create(:question, author: user)) }
 
       it { is_expected.not_to be_able_to %i[update destroy], create(:answer, author: other_user) }
+      it { is_expected.not_to be_able_to :best, create(:answer, question: create(:question, author: other_user)) }
     end
 
     context 'when Question' do
       it { is_expected.to be_able_to :create, Question }
       it { is_expected.to be_able_to :create_comment, Question }
-      it { is_expected.to be_able_to %i[update destroy update_best_answer], create(:question, author: user) }
+      it { is_expected.to be_able_to %i[update destroy], create(:question, author: user) }
 
-      it { is_expected.not_to be_able_to %i[update destroy update_best_answer], create(:question, author: other_user) }
+      it { is_expected.not_to be_able_to %i[update destroy], create(:question, author: other_user) }
     end
 
     context 'when vote' do
-      it { is_expected.to be_able_to %i[upvote downvote cancel], create(:answer, author: other_user) }
-      it { is_expected.not_to be_able_to %i[upvote downvote cancel], create(:answer, author: user) }
+      it { is_expected.to be_able_to %i[upvote downvote unvote], create(:answer, author: other_user) }
+      it { is_expected.not_to be_able_to %i[upvote downvote unvote], create(:answer, author: user) }
 
-      it { is_expected.to be_able_to %i[upvote downvote cancel], create(:question, author: other_user) }
-      it { is_expected.not_to be_able_to %i[upvote downvote cancel], create(:question, author: user) }
+      it { is_expected.to be_able_to %i[upvote downvote unvote], create(:question, author: other_user) }
+      it { is_expected.not_to be_able_to %i[upvote downvote unvote], create(:question, author: user) }
     end
   end
 
