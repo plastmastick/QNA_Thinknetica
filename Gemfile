@@ -5,24 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.0'
 
-gem 'aws-sdk-s3', require: false
-gem 'bootsnap', '>= 1.4.4', require: false
-gem "bootstrap"
-gem "cocoon"
-gem 'devise'
-gem 'gon'
-gem 'jbuilder', '~> 2.7'
-gem 'jquery-rails'
-gem 'octicons_helper'
-
-# authentication (oauth)
-gem 'cancancan'
-gem 'omniauth'
-gem 'omniauth-github'
-gem 'omniauth-rails_csrf_protection'
-gem 'omniauth-twitter'
-gem 'omniauth-vkontakte'
-
+# Core
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 6.1.5'
@@ -30,6 +13,30 @@ gem 'sass-rails', '>= 6'
 gem 'slim-rails'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
+
+# JS
+gem 'aws-sdk-s3', require: false
+gem 'bootsnap', '>= 1.4.4', require: false
+gem "bootstrap"
+gem "cocoon"
+gem 'gon'
+gem 'jquery-rails'
+gem 'octicons_helper'
+
+# Build JSON
+gem 'active_model_serializers', '~> 0.10'
+gem 'jbuilder', '~> 2.7'
+gem 'oj'
+
+# authentication (oauth)
+gem 'cancancan'
+gem 'devise'
+gem 'doorkeeper'
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-twitter'
+gem 'omniauth-vkontakte'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
