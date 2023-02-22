@@ -26,6 +26,7 @@ class Ability
     can :best, Answer do |answer|
       answer.question.author.id == user.id
     end
+    can :me, User, user_id: user.id
     can [:upvote, :downvote, :unvote], [Answer, Question] do |votable|
       votable.author_id != user.id
     end
