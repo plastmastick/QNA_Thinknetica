@@ -2,7 +2,7 @@
 
 class Api::V1::AnswersController < Api::V1::BaseController
   def show
-    render json: answer
+    render json: answer, serializer: AnswerSerializer
   end
 
   def create
@@ -10,7 +10,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
     @answer = question.answers.new(answer_params)
     @answer.author = current_resource_owner
     if @answer.save
-      render json: @answer
+      render json: @answer, serializer: AnswerSerializer
     else
       render json: { errors: @answer.errors }, status: :unprocessable_entity
     end
@@ -19,7 +19,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
   def update
     authorize! :update, answer
     if answer.update(answer_params)
-      render json: answer
+      render json: answer, serializer: AnswerSerializer
     else
       render json: { errors: answer.errors }, status: :unprocessable_entity
     end
@@ -28,7 +28,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
   def destroy
     authorize! :destroy, answer
     answer.destroy
-    render json: answer
+    render json: answer, serializer: AnswerSerializer
   end
 
   private
