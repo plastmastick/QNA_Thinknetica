@@ -52,3 +52,9 @@ RSpec/Capybara/FeatureMethods:
   Exclude:
     - 'spec/features/*'
     - 'spec/features/**/*'
+
+RSpec/NestedGroups:
+  Max: 4
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10

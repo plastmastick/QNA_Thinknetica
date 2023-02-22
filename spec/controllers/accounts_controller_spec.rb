@@ -19,7 +19,7 @@ RSpec.describe AccountsController, type: :controller do
       post :create, params: { user: { email: '123@email.com' } }
     end
 
-    context 'user persist' do
+    context 'when user persist' do
       it 'redirects to root path' do
         allow(User).to receive(:find_for_oauth).and_return(user)
         post :create, params: { user: { email: '123@email.com' } }
@@ -28,7 +28,7 @@ RSpec.describe AccountsController, type: :controller do
       end
     end
 
-    context 'user have not been saved' do
+    context 'when user have not been saved' do
       it 'redirects to root path' do
         allow(User).to receive(:find_for_oauth).and_return(nil)
         post :create, params: { user: { email: '123@email.com' } }

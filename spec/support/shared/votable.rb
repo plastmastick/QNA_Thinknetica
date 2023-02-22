@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.shared_examples "votable" do
+RSpec.shared_examples "Votable" do
   let(:model) { described_class }
 
   it { is_expected.to have_many(:votes).dependent(:destroy) }
