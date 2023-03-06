@@ -23,6 +23,8 @@ module QnaThinknetica
 
     config.autoload_paths += [Rails.root.join('app')]
 
+    config.active_job.queue_adapter = :sidekiq
+
     config.generators do |g|
       g.test_framework :rspec,
                        view_specs: false,

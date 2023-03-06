@@ -13,6 +13,9 @@ gem 'sass-rails', '>= 6'
 gem 'slim-rails'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
+gem 'sidekiq'
+gem 'whenever', require: false
+gem 'sinatra', require: false
 
 # JS
 gem 'aws-sdk-s3', require: false

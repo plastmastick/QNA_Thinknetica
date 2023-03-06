@@ -17,4 +17,6 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :reward, reject_if: :all_blank
 
   validates :body, :title, presence: true
+
+  scope :for_day, -> { where('created_at > ?', 1.day.ago) }
 end
