@@ -49,6 +49,8 @@
 
       = render 'comments/comments_block', commentable: @question, current_user: current_user
 
+      = render 'subscriptions/subscription', resource: @question
+
     .footer class='row card-footer'
       .actions class='col-3'
         - if can? :destroy, @question

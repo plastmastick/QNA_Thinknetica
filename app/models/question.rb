@@ -10,6 +10,8 @@ class Question < ApplicationRecord
 
   has_many :links, dependent: :destroy, as: :linkable
   has_many :answers, dependent: :destroy
+  has_many :subscriptions, as: :subscriptable, dependent: :destroy
+  has_many :subscribers, through: :subscriptions, source: :user, dependent: :destroy
 
   has_many_attached :files
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
@@ -24,6 +25,8 @@ Rails.application.routes.draw do
       post :create_comment
     end
   end
+
+  resources :subscriptions, shallow: true, only: %i[create destroy]
 
   resources :questions do
     concerns %i[votable commentable]

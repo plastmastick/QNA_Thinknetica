@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe DailyDigestMailer, type: :mailer do
   describe "digest" do
-    let(:mail) { DailyDigestMailer.digest(user) }
+    let(:mail) { described_class.digest(user) }
     let!(:user) { create(:user) }
     let!(:questions) { create_list(:question, 2) }
 

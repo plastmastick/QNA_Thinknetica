@@ -12,6 +12,8 @@ RSpec.describe Question, type: :model do
   it { is_expected.to have_one(:reward).dependent(:destroy) }
 
   it { is_expected.to have_many(:answers).dependent(:destroy) }
+  it { is_expected.to have_many(:subscriptions).dependent(:destroy) }
+  it { is_expected.to have_many(:subscribers).through(:subscriptions).source(:user).dependent(:destroy) }
 
   it { is_expected.to validate_presence_of :title }
   it { is_expected.to validate_presence_of :body }

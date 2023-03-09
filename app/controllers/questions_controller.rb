@@ -16,6 +16,8 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @subscription = Subscription.where(subscriptable: @question, user_id: current_user&.id).first
+
     gon.question_id = @question.id
     @answer = Answer.new
     @answers = @question.answers.sort_by_best
@@ -32,6 +34,7 @@ class QuestionsController < ApplicationController
     @question = current_user.author_questions.build(question_params)
 
     if @question.save
+      Subscription.create!(subscriptable: @question, user: current_user)
       redirect_to @question, notice: t('question.success_created')
     else
       render :new

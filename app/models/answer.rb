@@ -19,6 +19,8 @@ class Answer < ApplicationRecord
   scope :sort_by_best, -> { order(best: :desc) }
   scope :best, -> { where(best: true) }
 
+  after_create :notify_user
+
   def mark_as_best
     question.answers.best.each { |answer| answer.update(best: false) } if question.answers.best.count.positive?
     update(best: true)
@@ -30,5 +32,9 @@ class Answer < ApplicationRecord
     return if best == false || question.answers.best.count.zero? || question.answers.best == self
 
     errors.add(:best, :uniq_best_answer)
+  end
+
+  def notify_user
+    NotifierJob.perform_later(self)
   end
 end
