@@ -19,4 +19,11 @@ RSpec.describe Question, type: :model do
   it { is_expected.to validate_presence_of :body }
 
   it { is_expected.to accept_nested_attributes_for :reward }
+
+  it 'scope :for_day return questions created early then day ago' do
+    create(:question)
+    create(:question, :old_question)
+
+    expect(described_class.for_day.count).to eq 1
+  end
 end
