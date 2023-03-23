@@ -32,6 +32,7 @@ class User < ApplicationRecord
 
   has_many :rewards, foreign_key: :owner_id, dependent: :nullify, inverse_of: :owner
   has_many :authorisations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   def self.find_for_oauth(auth)
     FindForOauthService.new(auth).call
@@ -46,5 +47,9 @@ class User < ApplicationRecord
       provider: data.provider, uid: data.uid.to_i,
       access_token: data.credentials.token, access_secret: data.credentials.secret
     }
+  end
+
+  def subscribed_to_resource?(resource)
+    subscriptions.exists?(subscriptable: resource)
   end
 end

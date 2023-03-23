@@ -21,6 +21,7 @@ RSpec.describe Ability, type: :model do
 
     it { is_expected.not_to be_able_to :menage, :all }
     it { is_expected.to be_able_to :read, :all }
+    it { is_expected.to be_able_to %i[create destroy], Subscription }
 
     context 'when Answer' do
       it { is_expected.to be_able_to :create, Answer }

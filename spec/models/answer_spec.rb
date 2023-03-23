@@ -25,4 +25,10 @@ RSpec.describe Answer, type: :model do
 
     expect(new_answer).not_to be_valid
   end
+
+  it "notifies user after create" do
+    answer = build(:answer, :with_notify_callback)
+    expect(NotifierJob).to receive(:perform_later).with(answer)
+    answer.save
+  end
 end

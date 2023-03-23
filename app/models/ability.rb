@@ -23,6 +23,7 @@ class Ability
     guest_abilities
     can %i[update destroy], [Answer, Question, Comment], author_id: user.id
     can %i[create create_comment], [Answer, Question]
+    can %i[create destroy], Subscription
     can :best, Answer do |answer|
       answer.question.author.id == user.id
     end

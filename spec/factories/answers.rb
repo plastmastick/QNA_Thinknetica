@@ -7,12 +7,18 @@ FactoryBot.define do
     author { create(:user) }
     best { false }
 
+    before(:build) { |answer| answer.skip_callback(:create, :after, :notify_user) }
+
     trait :invalid do
       body { nil }
     end
 
     trait :best do
       best { true }
+    end
+
+    trait :with_notify_callback do
+      before(:build) { |answer| answer.class.set_callback(:create, :after, :notify_user) }
     end
 
     after(:build) do |post|
