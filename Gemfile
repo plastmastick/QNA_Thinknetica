@@ -17,6 +17,10 @@ gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
 
+# Sphinx
+gem 'mysql2', '~> 0.5.5'
+gem 'thinking-sphinx', '~> 5.4'
+
 # JS
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.4', require: false
@@ -72,6 +76,7 @@ group :test do
   gem 'capybara-email'
   gem 'launchy'
   gem 'webdrivers'
+  gem 'database_cleaner-active_record'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

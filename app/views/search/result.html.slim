@@ -1,0 +1,14 @@
+- if @results.empty?
+  p No matches
+- else
+  - @results.each do |result|
+    - if result.is_a?(Question)
+      b Question:
+      ul= link_to result.title, question_path(result)
+      ul= result.body
+    - elsif result.is_a?(User)
+      b User:
+      = result.email
+    - else
+      b= "#{result.class}:"
+      ul= result.body
