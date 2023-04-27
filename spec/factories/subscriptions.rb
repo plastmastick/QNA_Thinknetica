@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :subscription do
-    user { nil }
-    subscriptable { nil }
+    user { create(:user) }
+    subscriptable { create(:question) }
   end
 end

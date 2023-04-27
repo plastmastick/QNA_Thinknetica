@@ -21,4 +21,12 @@ RSpec.describe User, type: :model do
       described_class.find_for_oauth(auth)
     end
   end
+
+  it ':subscribed_to_resource?' do
+    user = create(:user)
+    question = create(:question)
+    create(:subscription, subscriptable: question, user: user)
+
+    expect(user.subscribed_to_resource?(question)).to be true
+  end
 end

@@ -10,6 +10,10 @@ FactoryBot.define do
       title { nil }
     end
 
+    trait :old_question do
+      created_at { 10.days.ago }
+    end
+
     after(:build) do |post|
       post.files.attach(
         io: Rails.root.join("spec/factories/questions.rb").open,
