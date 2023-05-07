@@ -14,7 +14,7 @@ AllCops:
     - 'views/**/*'
     - 'config/initializers/devise.rb'
     - 'node_modules/**/**/*'
-  TargetRubyVersion: 3.0.0
+  TargetRubyVersion: 3.2.2
   SuggestExtensions: false
 
 Style/StringLiterals:

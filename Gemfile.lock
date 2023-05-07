@@ -498,7 +498,7 @@ DEPENDENCIES
   omniauth-rails_csrf_protection
   omniauth-twitter
   omniauth-vkontakte
-  pg (= 1.4.4)
+  pg (~> 1.1)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.5)
@@ -523,7 +523,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 3.0.0p0
+   ruby 3.2.2p53
 
 BUNDLED WITH
    2.4.12
