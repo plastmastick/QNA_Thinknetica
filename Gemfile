@@ -17,6 +17,9 @@ gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
 
+# Use Redis adapter to run Action Cable in production
+gem 'redis', '~> 5.0'
+
 # Sphinx
 gem 'mysql2', '~> 0.5.5'
 gem 'thinking-sphinx', '~> 5.4'
