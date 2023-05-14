@@ -14,6 +14,7 @@ gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim-rails'
 gem 'turbolinks', '~> 5'
+gem 'unicorn'
 gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
 
@@ -73,10 +74,11 @@ group :development do
   gem 'spring'
 
   gem 'capistrano', require: false
+  gem 'capistrano3-unicorn', require: false
   gem 'capistrano-bundler', require: false
+  gem 'capistrano-passenger', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
-  gem 'capistrano-passenger', require: false
   gem 'capistrano-sidekiq', require: false
 end
 
@@ -86,9 +88,9 @@ group :test do
   gem 'selenium-webdriver', '>= 4.0.0.rc1'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'capybara-email'
+  gem 'database_cleaner-active_record'
   gem 'launchy'
   gem 'webdrivers'
-  gem 'database_cleaner-active_record'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

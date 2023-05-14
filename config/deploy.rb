@@ -27,3 +27,6 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "tmp/webpack
 
 # sidekiq
 set :pty, false
+
+# Unicorn config
+after 'deploy:publishing', 'unicorn:restart'
