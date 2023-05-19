@@ -1,4 +1,5 @@
-p
-  = "#{comment.body} - "
-  b = comment.author&.email
-  span class="text-secondary" = " #{comment.created_at}"
+- cache comment do
+  p
+    = "#{comment.body} - "
+    b = comment.author&.email
+    span class="text-secondary" = " #{comment.created_at}"

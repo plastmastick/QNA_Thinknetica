@@ -1,40 +1,41 @@
-= render 'questions/question_form'
+- cache @question do
+  = render 'questions/question_form'
 
-.answers class='row mt-3'
-  h1 class='text-center' Answers
+  .answers class='row mt-3'
+    h1 class='text-center' Answers
 
-  = form_with model: [@question, @answer], class: 'new-answer mt-3 card border-secondary', data: { type: :json }, local: false do |f|
-    .new-answer-header class='row card-header flex'
-      = f.label :body, 'Your answer'
+    = form_with model: [@question, @answer], class: 'new-answer mt-3 card border-secondary', data: { type: :json }, local: false do |f|
+      .new-answer-header class='row card-header flex'
+        = f.label :body, 'Your answer'
 
-    .new-answer-body class='card-body'
-      = f.text_area :body,
-              rows: 4,
-              cols: 60,
-              class: "form-control"
+      .new-answer-body class='card-body'
+        = f.text_area :body,
+                rows: 4,
+                cols: 60,
+                class: "form-control"
 
-      p
-        = f.label :files
-        = f.file_field :files, multiple: true, direct_upload: true
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true, direct_upload: true
 
-      p Links:
-      p
-        = f.fields_for :links do |l|
-          p
-            = l.label :name, 'Link name'
-            = l.text_field :name
-          p
-            = l.label :url
-            = l.text_field :url
-        .links
-          p Links:
-          = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
+        p Links:
+        p
+          = f.fields_for :links do |l|
+            p
+              = l.label :name, 'Link name'
+              = l.text_field :name
+            p
+              = l.label :url
+              = l.text_field :url
+          .links
+            p Links:
+            = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
 
-      .answer-errors
-        = render 'shared/errors', resource: @answer
+        .answer-errors
+          = render 'shared/errors', resource: @answer
 
-    .new-answer-actions class='mb-2 text-start'
-      = f.submit 'Create', class: 'btn btn-outline-dark fw-bold'
+      .new-answer-actions class='mb-2 text-start'
+        = f.submit 'Create', class: 'btn btn-outline-dark fw-bold'
 
-  .answers-list
-    = render @question.answers.sort_by_best
+    .answers-list
+      = render @question.answers.sort_by_best
