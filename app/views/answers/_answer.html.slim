@@ -1,66 +1,67 @@
-div id="answer-#{answer.id}" class='answer row mt-3'
+- cache answer do
+  div id="answer-#{answer.id}" class='answer row mt-3'
 
-  .card class='card'
+    .card class='card'
 
-    - if answer.best
-      .header class='row card-header bg-primary text-light' Best answer
+      - if answer.best
+        .header class='row card-header bg-primary text-light' Best answer
 
-    .body class='card-body'
-      span class='answer-body'
-        = answer.body
+      .body class='card-body'
+        span class='answer-body'
+          = answer.body
 
-      span class='answer-files'
-        = render 'shared/files_list', resource: answer
+        span class='answer-files'
+          = render 'shared/files_list', resource: answer
 
-      = render 'shared/links', resource: answer
+        = render 'shared/links', resource: answer
 
-      = form_with model: answer, class: 'hide', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
-        p
-          = f.label :body, 'Edit answer:'
-          = f.text_area :body,
-                  rows: 4,
-                  cols: 60,
-                  class: "form-control"
-        p
-          = f.label :files
-          = f.file_field :files, multiple: true, direct_upload: true
+        = form_with model: answer, class: 'hide', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+          p
+            = f.label :body, 'Edit answer:'
+            = f.text_area :body,
+                    rows: 4,
+                    cols: 60,
+                    class: "form-control"
+          p
+            = f.label :files
+            = f.file_field :files, multiple: true, direct_upload: true
 
-        .links
-          = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
-        = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
+          .links
+            = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
+          = f.submit 'Save', class: 'btn btn-outline-dark fw-bold mt-2'
 
-      .answer-errors
-        = render 'shared/errors', resource: answer
+        .answer-errors
+          = render 'shared/errors', resource: answer
 
-      = render 'comments/comments_block', commentable: answer
+        = render 'comments/comments_block', commentable: answer
 
-    .footer class='row card-footer'
-      .actions class='col-3'
-        - if can? :destroy, answer
-          = link_to t('.delete'),
-                  answer_path(answer),
-                  method: :delete,
-                  remote: true,
-                  class: 'btn btn-outline-dark fw-bold me-3',
-                  data: { confirm: t('.confirm') }
+      .footer class='row card-footer'
+        .actions class='col-3'
+          - if can? :destroy, answer
+            = link_to t('.delete'),
+                    answer_path(answer),
+                    method: :delete,
+                    remote: true,
+                    class: 'btn btn-outline-dark fw-bold me-3',
+                    data: { confirm: t('.confirm') }
 
-        - if can? :edit, answer
-          = link_to 'Edit',
-                  '#',
-                  class: 'ml-1 btn btn-outline-dark fw-bold me-3 edit-answer-link',
-                  data: { answer_id: answer.id }
+          - if can? :edit, answer
+            = link_to 'Edit',
+                    '#',
+                    class: 'ml-1 btn btn-outline-dark fw-bold me-3 edit-answer-link',
+                    data: { answer_id: answer.id }
 
-        - if (can? :best, answer) && !answer.best
-          = link_to 'Best',
-                  best_answer_path(answer),
-                  method: :patch,
-                  remote: true,
-                  class: 'ml-1 btn btn-outline-dark fw-bold',
-                  data: { answer_id: answer.id }
+          - if (can? :best, answer) && !answer.best
+            = link_to 'Best',
+                    best_answer_path(answer),
+                    method: :patch,
+                    remote: true,
+                    class: 'ml-1 btn btn-outline-dark fw-bold',
+                    data: { answer_id: answer.id }
 
-      = render 'votes/vote', resource: answer
+        = render 'votes/vote', resource: answer
 
-      .author class='col-9 mt-2 text-end'
-        b Author:
-        '
-        = answer.author&.email
+        .author class='col-9 mt-2 text-end'
+          b Author:
+          '
+          = answer.author&.email

@@ -1,14 +1,15 @@
 .create-comment-errors
   = render 'shared/errors', resource: @comment
 
-= form_with model: [resource, resource.comments.new], url: "#{polymorphic_path(resource)}/create_comment",
-            class: "#{resource.class.name&.downcase}-new-comment", local: false do |f|
-  div.field
-    = f.label :body, 'Leave a comment'
-    br
-    = f.text_area :body,
-            rows: 4,
-            cols: 60,
-            class: "form-control"
-  div.actions
-    = f.submit 'Send', class: 'btn btn-outline-dark fw-bold mt-2'
+- cache ['comment_form', resource] do
+  = form_with model: [resource, resource.comments.new], url: "#{polymorphic_path(resource)}/create_comment",
+              class: "#{resource.class.name&.downcase}-new-comment", local: false do |f|
+    div.field
+      = f.label :body, 'Leave a comment'
+      br
+      = f.text_area :body,
+              rows: 4,
+              cols: 60,
+              class: "form-control"
+    div.actions
+      = f.submit 'Send', class: 'btn btn-outline-dark fw-bold mt-2'
